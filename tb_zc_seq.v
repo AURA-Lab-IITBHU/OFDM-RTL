@@ -171,7 +171,7 @@ initial
                     $display("FAIL : Lower guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
             end
 
             //Checking dc guard
@@ -182,7 +182,7 @@ initial
                     $display("FAIL : dc index at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
             end
 
             //Checking upper Guard
@@ -193,7 +193,7 @@ initial
                     $display("FAIL : Upper guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
             end
 
             //Checking remaining bits
@@ -201,19 +201,19 @@ initial
              begin
                 if ((zc_re[i] != zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]) || (zc_im[i] != zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]))
                 begin
-                    $display("FAIL : index : %d , out re : %h , Expected re : %h",i,zc_re[i],zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
-                    $display("FAIL : index : %d , out im : %h , Expected im : %h",i,zc_im[i],zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("FAIL : index : %2d , out re : %h , Expected re : %h",i,zc_re[i],zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("FAIL : index : %2d , out im : %h , Expected im : %h",i,zc_im[i],zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
                     error = error + 1;
                 end
                 else 
                 begin
-                    $display("PASS : Index : %d , Out Re: %h , Expected Re: %h", i, zc_re[i], zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
-                    $display("PASS : Index : %d , Out Im: %h , Expected Im: %h", i, zc_im[i], zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("PASS : Index : %2d , Out Re: %h , Expected Re: %h", i, zc_re[i], zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("PASS : Index : %2d , Out Im: %h , Expected Im: %h", i, zc_im[i], zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
                 end
              end
         end
         
-        $display ( " Code exited with %d errors",error);
+        $display ( " Code exited with %2d errors",error);
         $finish;
     end
     
