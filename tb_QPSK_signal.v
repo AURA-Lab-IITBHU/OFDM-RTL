@@ -8,7 +8,7 @@ reg [127:0]in;
 wire [1023:0]I;
 wire [1023:0]Q;
 
-QPSK_signal_128 uut (
+qpsk_signal_128 uut (
         .in(in),
         .clk(clk),
         .I(I),
@@ -17,7 +17,8 @@ QPSK_signal_128 uut (
     // 100Mhz
     always #5 clk = ~clk;
     
-    //5a82==1/root2 & a57e == -1/root2
+    //5a82 = 1/sqrt(2)
+   //a57e = -1/sqrt(2)
     
 initial begin 
 #0
