@@ -24,8 +24,8 @@ output reg signed [15:0] Q
 
         always@(posedge clk) 
             begin 
-                I <= in[1] ? NEG : POS;
-                Q <= in[0] ? NEG : POS;
+                I <= in[0] ? NEG : POS;
+                Q <= in[1] ? NEG : POS;
             end 
 
 endmodule
