@@ -1,3 +1,4 @@
+`include "zc_seq.v"
 `timescale 1ns / 100ps
 module tb_zc_seq;
 
@@ -226,5 +227,4 @@ initial
     end
 
 endmodule
-
 
