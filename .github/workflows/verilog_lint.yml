@@ -1,0 +1,25 @@
+name: Verilog Lint & Syntax Check
+
+on:
+  push:
+    branches: [ "main", "qpsk", "**" ]
+  pull_request:
+    branches: [ "main", "qpsk" ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Compile and Syntax Check All Modules Together
+        run: |
+          iverilog -Wall -t null -y . *.v
