@@ -14,7 +14,7 @@ def run_fal():
     # 1. Compile the RTL and Testbench
     log("EXEC", "Running compiler: iverilog -g2012 -o sim.out zc_seq.v tb_zc_seq.v")
     compile_proc = subprocess.run(
-        ['iverilog', '-g2012', '-o', 'sim.out', 'zc_seq.v', 'tb_zc_seq.v'],
+        ['iverilog', '-g2012', '-o', 'sim.out', 'tb_zc_seq.v'],
         capture_output=True, text=True
     )
     
