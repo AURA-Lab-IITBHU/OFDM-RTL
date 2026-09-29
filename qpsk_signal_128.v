@@ -14,8 +14,7 @@ output signed [1023:0] Q  // 64 x 16-bit signed samples
  );
     
  genvar k;
-    generate  
-        begin
+    generate 
             for(k = 0; k<64 ; k = k+1)
                 begin
                     qpsk_signal inst(
@@ -25,7 +24,6 @@ output signed [1023:0] Q  // 64 x 16-bit signed samples
                     .Q (Q[ 16*k +:16])
                     );
                 end
-        end  
     endgenerate 
        
 endmodule
