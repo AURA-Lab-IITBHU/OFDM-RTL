@@ -1,3 +1,4 @@
+`include "qpsk_signal.v"
 `timescale 1ns / 1ps
 
 // Parallel QPSK mapper : 64 symbols per clock : 2 bits per symbol 
