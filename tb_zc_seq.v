@@ -214,7 +214,7 @@ initial
              end
         end
         
-        $display ( " Code exited with %2d errors",error);
+        $display ( " Code exited with %0d errors",error);
         $finish;
     end
     
