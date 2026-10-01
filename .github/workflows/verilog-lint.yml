@@ -1,0 +1,55 @@
+name: Verilog Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+      - qpsk
+      - zc_sequence
+      - uart
+      - subcarrier_cp
+      - serial_streaming
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Syntax-check all Verilog files
+        run: |
+          set -e
+          shopt -s globstar nullglob
+
+          files=(**/*.v **/*.sv)
+
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No Verilog/SystemVerilog files found — nothing to lint."
+            exit 0
+          fi
+
+          echo "Checking ${#files[@]} file(s):"
+          printf '%s\n' "${files[@]}"
+
+          fail=0
+          for f in "${files[@]}"; do
+            echo "::group::$f"
+            if ! iverilog -g2012 -t null "$f"; then
+              echo "FAILED: $f"
+              fail=1
+            fi
+            echo "::endgroup::"
+          done
+
+          if [ "$fail" -ne 0 ]; then
+            echo "One or more files failed syntax check."
+            exit 1
+          fi
+
+          echo "All files passed syntax check."
