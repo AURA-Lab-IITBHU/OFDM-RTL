@@ -44,8 +44,11 @@ module ofdm_generate_frame #(
     reg [1:0] state;
 
     // --- generate_zc_sequence -------------------------------------------
-    wire [DATA_WIDTH-1:0] zc_seq_re [0:SUBCARRIER_COUNT-1];
-    wire [DATA_WIDTH-1:0] zc_seq_im [0:SUBCARRIER_COUNT-1];
+    // zc_sequence_generator emits packed vectors: subcarrier g occupies
+    // zc_seq_re[g*DATA_WIDTH +: DATA_WIDTH]. It cannot be an unpacked array
+    // because unpacked-array ports are SystemVerilog-only and break Vivado.
+    wire [SUBCARRIER_COUNT*DATA_WIDTH-1:0] zc_seq_re;
+    wire [SUBCARRIER_COUNT*DATA_WIDTH-1:0] zc_seq_im;
 
     zc_sequence_generator #(
         .SUB_COUNT  (SUBCARRIER_COUNT),
@@ -61,7 +64,8 @@ module ofdm_generate_frame #(
     genvar g;
     generate
         for (g = 0; g < SUBCARRIER_COUNT; g = g + 1) begin : pack_zc
-            assign zc_seq_cplx[g*32 +: 32] = {zc_seq_re[g], zc_seq_im[g]};
+            assign zc_seq_cplx[g*32 +: 32] = {zc_seq_re[g*DATA_WIDTH +: DATA_WIDTH],
+                                              zc_seq_im[g*DATA_WIDTH +: DATA_WIDTH]};
         end
     endgenerate
 
