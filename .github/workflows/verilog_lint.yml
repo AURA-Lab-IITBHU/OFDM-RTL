@@ -40,4 +40,5 @@ jobs:
           iverilog -g2012 -I src -o /tmp/t.vvp src/map_to_subcarriers.v testbenches/tb_subcarrier.v   && vvp /tmp/t.vvp | grep -q "0 ERROR(S)"
           iverilog -g2012 -I src -o /tmp/t.vvp src/add_cp.v            testbenches/tb_add_cp.v      && vvp /tmp/t.vvp | grep -q "ALL TESTS PASSED"
           iverilog -g2012 -I src -o /tmp/t.vvp src/ifft_64.v           testbenches/tb_ifft_64.v     && vvp /tmp/t.vvp | grep -q "ALL IFFT TESTS PASSED"
+          iverilog -g2012 -I src -o /tmp/t.vvp src/bit_reversal_buffer.v testbenches/tb_bit_reversal_buffer.v && vvp /tmp/t.vvp | grep -q "ALL BIT-REVERSAL BUFFER TESTS PASSED"
           iverilog -g2012 -I src -o /tmp/t.vvp full.v                  testbenches/tb_ofdm_frame.v  && vvp /tmp/t.vvp | grep -q "ALL OFDM FRAME TESTS PASSED"
