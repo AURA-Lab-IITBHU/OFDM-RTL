@@ -1,1 +1,8 @@
+# Local-only project notes.
 AGENTS.md
+
+# Simulator output. tb_zc_seq.v dumps zc.vcd on every run, so without this the
+# working tree is dirty after each regression pass.
+*.vcd
+*.vvp
+a.out
