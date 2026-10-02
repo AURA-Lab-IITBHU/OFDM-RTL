@@ -185,14 +185,23 @@ is cleared by `!run`, not by a reset of its own.
 
 ### SD card flow
 
-`main.c` reads a 16-byte payload from `qpsk.bin` at the card root, writes the
-frame to `frame.bin` at the card root, and prints progress over UART.
+`main.c` reads a 16-byte payload from `0:/qpsk.bin` and writes the frame to
+`0:/frame.bin`, both opened with an explicit drive prefix so they do not depend
+on the current drive. Progress goes out UART.
+
+Use a **small card (2–16 GB) formatted FAT32**. Windows ships cards over 32 GB
+as exFAT, and FatFs here has no exFAT driver, so such a card will never mount.
+Windows also declines to offer FAT32 for cards larger than 32 GB — use Rufus
+with `Large FAT32`, or a smaller card.
 
 ```sh
 python3 fpga/check_frame.py gen qpsk.bin 1        # make a payload
 # ... run on board, copy frame.bin back ...
 python3 fpga/check_frame.py check qpsk.bin frame.bin
 ```
+
+The `qpsk.bin` you check against must be the exact file that was on the card.
+Regenerating it with a different seed makes the comparison meaningless.
 
 `check_frame.py` needs numpy (`python3 -m pip install numpy`) — the import is
 top-level, so even `gen` fails without it. `check_frame.py check` exits non-zero
@@ -203,6 +212,72 @@ File formats, all little-endian:
 - `qpsk.bin` — 16 bytes = `qpsk_bits[127:0]`, byte 0 holds bits 7:0.
 - `frame.bin` — 320 × `u32`, each `{re[31:16], im[15:0]}` signed Q1.15,
   symbol `s` at words `80*s .. 80*s+79` (16 CP then 64 body).
+
+### Finding the UART
+
+`xil_printf` goes out PS UART1 → the ZedBoard's USB-serial bridge. It never
+appears in the XSDB console, so a silent XSDB window says nothing about the app.
+
+```powershell
+Get-CimInstance Win32_SerialPort | Select-Object DeviceID, Name | Format-Table -AutoSize
+```
+
+Ignore `Standard Serial over Bluetooth link` ports — those are Windows virtual
+ports, unrelated to the board. The one that disappears when you unplug the
+ZedBoard is the UART; on a typical machine that is `USB Serial Device (COM5)`.
+Open it at **115200, 8-N-1, no flow control**.
+
+### Driving the peripheral from XSDB
+
+Useful when you need to separate "the PL datapath is broken" from "software
+can't read files" — these are very different problems and the SD card is a
+common source of noise. Launch a standalone debugger so the ELF is not
+re-downloaded on every run:
+
+```powershell
+& "C:\Xilinx\2025.1\Vitis\bin\xsdb.bat"
+```
+```
+connect
+mrd 0x43C00018          # ID -> 0FDA0001 proves bitstream loaded + AXI mapped
+mwr 0x43C00000 0x00000000
+mwr 0x43C00008 0x7788B2D4
+mwr 0x43C0000C 0x3C5AE1F0
+mwr 0x43C00010 0x9B47D268
+mwr 0x43C00014 0xA5C30F1E
+mwr 0x43C00000 0x00000001
+mrd 0x43C00004          # STATUS -> 00000001 = done, 00000002 = busy
+mrd 0x43C000400         # word   0 -> 00F507A2
+mrd 0x43C000540         # word  80 -> FE000000
+mrd 0x43C0007C0         # word 240 -> 05A8FC58
+mrd 0x43C0008FC         # word 319 -> F840FA67
+```
+
+The expected values are for payload `A5C3_0F1E_9B47_D268_3C5A_E1F0_7788_B2D4`;
+split your own payload the same way — `qpsk.bin`'s 16 bytes little-endian map
+onto `QPSK0..3`, whose bit 0 is bit 0 of `qpsk_bits`.
+
+If `mrd` returns `0`, the bitstream is not loaded. Note that a debugger restart
+does **not** disturb the PL — the bitstream persists — but a power cycle does,
+and FCLK_CLK0 stops until `ps7_init` runs again, so re-run the app (or the
+FSBL) before poking registers after a reset.
+
+### FatFs errors
+
+`main.c` prints the `FRESULT` for every failure. The codes that actually come up:
+
+| Code | Name | Usual cause |
+| --- | --- | --- |
+| `1` | `DISK_ERR` | Card present but not readable — bad card, dirty contacts, or not seated |
+| `3` | `NOT_READY` | Card never detected; SDIO not enabled, or card in the wrong slot |
+| `12` | `NOT_ENABLED` | FatFs was built without that drive — check the drive number in the BSP's `ff.c` |
+| `13` | `NO_FILESYSTEM` | Mounted, but no FAT — almost always an exFAT or FAT16 card |
+
+If you get `NOT_READY` or `NO_FILESYSTEM` on a card you believe is FAT32, check
+whether the PS SD peripheral is enabled at all: search the platform's
+`ps7_cortexa9_0/include/xparameters.h` for `SDIO` / `XSDPS`. `fpga/build_bd.tcl`
+does **not** set `PCW_SDIO_PERIPHERAL_ENABLE` explicitly — it relies on the board
+preset applying it, so if the preset was skipped the SD controller is off.
 
 ### Register map
 
