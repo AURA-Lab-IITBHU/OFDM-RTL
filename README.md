@@ -84,7 +84,12 @@ Accuracy against the floating-point model:
 
 - IFFT: max **2 LSB** (radix-2² per-stage truncation).
 - Full 320-word frame: max **2 LSB** (`tb_full.v`, live real-arithmetic golden).
-- `fpga/check_frame.py` against the RTL: max **1.6 LSB**.
+- `fpga/check_frame.py` against the RTL: max **1.6 LSB**. This one is now
+  cross-checked against the bit-exact frame the RTL produces (the 320-word
+  table embedded in `tb_ofdm_axi_lite.v`) for payload
+  `A5C3_0F1E_9B47_D268_3C5A_E1F0_7788_B2D4`: **1.5 LSB** worst case, CP exact
+  on all four symbols. So the host checker is a trustworthy pass/fail gate —
+  a hardware `FAIL` means a real hardware problem, not model drift.
 
 `testbenches/tb_full.v` computes its golden IFFT live and drives a pseudo-random
 payload; `testbenches/tb_ofdm_frame.v` compares against a generated table of
@@ -94,17 +99,56 @@ what makes the end-to-end result meaningful.
 ## FPGA bring-up (Zynq-7000 / ZedBoard)
 
 The design is a plain AXI4-Lite slave. There is no streaming interface and no
-DDR traffic: the core generates one frame, is held in reset, and software reads
-the 320 words back over AXI. Frame storage is **flip-flops, not BRAM** (~10,240
-FFs plus a 320:1 × 32-bit read mux), so watch utilisation and post-synthesis
-timing on that mux.
+*PL-side* DDR traffic: the core generates one frame, is held in reset, and
+software reads the 320 words back over AXI. Frame storage is **flip-flops, not
+BRAM** (~10,240 FFs plus a 320:1 × 32-bit read mux), so watch utilisation and
+post-synthesis timing on that mux.
 
-### Vivado
+### Vivado — scripted (recommended)
 
-1. Create a project targeting your Zynq device, enable `FCLK_CLK0` (50 MHz is
-   assumed by the `FREQ_HZ` attribute in `fpga/ofdm_axi_lite.v` — change it if
-   you use a different clock).
-2. Block design: add `Zynq PS7` with **Enable FCLK_CLK0** and **DDR off**.
+`fpga/build_bd.tcl` builds the entire block design, bitstream and XSA in one
+batch run. It has been run end to end on Vivado 2025.1 with the ZedBoard board
+files (`avnet.com:zedboard:part0:1.4`, device `xc7z020clg484-1`):
+
+```sh
+vivado -mode batch -source fpga/build_bd.tcl
+```
+
+What it does, and why:
+
+- Discovers the Board Manager repository and pins the board part, so the PS
+  clock, DDR and MIO come from the board preset instead of guesswork.
+- Adds `full.v`, `fpga/ofdm_axi_lite.v` and `src/*.v` as design sources.
+- Instantiates PS7, adds `ofdm_axi_lite` as a **module reference**, and lets
+  `apply_bd_automation` wire `s_axi`, an AXI interconnect and `proc_sys_reset`.
+  `s_axi_aresetn` is a declared `RST` interface, so automation wires clock and
+  reset itself — a manual `connect_bd_net` on the reset fails with "already
+  connected".
+- Assigns the AXI slave at **`0x43C00000`** and prints the authoritative
+  `OFDM_BASE` at the end. Zynq-7000 GP0 is hardwired to
+  `0x4000_0000`–`0x7FFF_FFFF`, so the address must be pinned on the **slave**
+  segment; there is nothing to pin on the master side.
+- Synthesises, implements, generates the bitstream, writes
+  `timing_summary.rpt` / `utilization.rpt` / `drc.rpt`, and exports
+  `ofdm_system.xsa` for Vitis.
+
+Post-route timing at 50 MHz (FCLK_CLK0): **WNS +3.598 ns, TNS 0, WHS +0.030 ns,
+THS 0**, zero DRC errors, bitstream written. The design is routing-bound on the
+frame write enable — the FFT is nowhere on the critical path, so DSP pipelining
+buys nothing here.
+
+**DDR is on**, configured by the board preset. The core generates one frame and
+software reads it over AXI, so there is no *PL-side* DDR traffic, but the PS
+still needs DDR for the FSBL to boot and for the app to have memory. On
+Zynq-7000 the PS DDR pins are dedicated PS MIO owned by the preset; adding a
+PL DDR memory part here would be meaningless.
+
+### Vivado — manual (GUI)
+
+1. Create a project targeting your Zynq device, apply a board preset (ZedBoard),
+   and enable `FCLK_CLK0` (50 MHz is assumed by the `FREQ_HZ` attribute in
+   `fpga/ofdm_axi_lite.v` — change it if you use a different clock).
+2. Block design: add `Zynq PS7` with **Enable FCLK_CLK0** and **DDR on**.
 3. Run Block Automation to export `FCLK_CLK0` and `FCLK_RESET0_N`.
 4. Add `fpga/ofdm_axi_lite.v` as a module. It should appear with an
    `s_axi` AXI4-Lite interface — the `XIL_INTERFACENAME` attributes make this
@@ -115,20 +159,29 @@ timing on that mux.
    the AXI-Lite port.
 6. Add an XDC constraining `s_axi_aclk` to your `FCLK_CLK0` period (20 ns for
    50 MHz), otherwise timing analysis reports the clock unconstrained.
-7. Validate, then Generate Bitstream.
-
-Set include directories to the repo root and `src/` if you ever add the RTL as
-design sources directly; `full.v` uses `src/`-prefixed paths.
+7. In the Address Editor, pin the **slave** segment inside GP0
+   (`0x4000_0000`–`0x7FFF_FFFF`); a master-side assignment will not stick.
+8. Validate, then Generate Bitstream.
 
 ### Vitis (standalone)
 
-1. Create a standalone (bare-metal, `xstandalone` platform) application.
+1. Create a standalone (bare-metal) application, using the exported hardware
+   platform `ofdm_bd/ofdm_system.xsa` (the scripted build writes it there and
+   includes the bitstream).
 2. In the BSP settings, enable the **`xilffs`** FatFs library so `ff.h` exists.
 3. Check the drive string in the BSP's `ffs.c` matches what `main.c` passes to
    `f_mount` (`"0:/"`). On some Vitis versions this needs editing.
 4. Copy `fpga/main.c` into the application `src/`.
-5. Set `OFDM_BASE` in `main.c` to whatever the Vivado Address Editor assigned.
+5. Confirm `OFDM_BASE` in `main.c` is `0x43C00000U` — that is what the current
+   build assigns, so it should already match. Change it only if the value the
+   script prints differs.
 6. Build, program the FPGA, and run.
+
+The app reads `ID` (`0x0FDA0001`) before anything else and fails fast with a
+clear message if it does not match, so a wrong base address or a stale bitstream
+is diagnosed immediately instead of showing up later as a silent frame
+mismatch. It also writes `CTRL = 0` before every run, which is required — `done`
+is cleared by `!run`, not by a reset of its own.
 
 ### SD card flow
 
@@ -141,8 +194,9 @@ python3 fpga/check_frame.py gen qpsk.bin 1        # make a payload
 python3 fpga/check_frame.py check qpsk.bin frame.bin
 ```
 
-`check_frame.py` needs numpy. `check_frame.py check` exits non-zero on failure
-and prints a per-symbol LSB error and a cyclic-prefix exactness check.
+`check_frame.py` needs numpy (`python3 -m pip install numpy`) — the import is
+top-level, so even `gen` fails without it. `check_frame.py check` exits non-zero
+on failure and prints a per-symbol LSB error and a cyclic-prefix exactness check.
 
 File formats, all little-endian:
 
