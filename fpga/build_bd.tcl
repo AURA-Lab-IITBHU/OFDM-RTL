@@ -71,8 +71,12 @@ set_property -dict [list \
   ] [get_bd_cells processing_system7_0]
 
 # Wrap the hand-written AXI wrapper as a module reference so the BD can use it.
+# Vivado 2025.1 has no make_module_reference; create_bd_cell -type module is the
+# supported spelling. update_compile_order first so the HDL is elaborated before
+# the module is referenced by name.
 set axi_file [get_files -of_objects [get_filesets sources_1] -filter {NAME =~ "*ofdm_axi_lite.v"}]
-make_module_reference $axi_file ofdm_axi_lite_0
+update_compile_order -fileset sources_1
+create_bd_cell -type module -reference ofdm_axi_lite ofdm_axi_lite_0
 
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
   -config {Master "/processing_system7_0/M_AXI_GP0" Slave "/ofdm_axi_lite_0/S_AXI" Clk "Auto"} \
