@@ -36,6 +36,54 @@ puts "part     : $part_name"
 puts "FCLK_CLK0: $fclk_mhz MHz"
 
 # ---------------------------------------------------------------- project ----
+# Board Manager (GUI) installs board files into the per-user Vivado Store
+# (%APPDATA%\Xilinx\Vivado\<ver>\xhubStore_<uuid>\data\boards), not into the
+# Vivado installation tree, and batch mode does not scan that location on its
+# own -- which is why get_board_parts came back empty. Point board.repoPaths at
+# every store we can find. The store directory name carries a UUID that is
+# specific to each installation, so glob for it rather than hardcoding.
+#
+# Note this is a *discovery* fix, not an install fix: it makes board files that
+# Board Manager has already downloaded visible to batch mode. If you have never
+# run Tools -> Board Manager, there is nothing here to find and this finds
+# nothing.
+set appdata      [file normalize $::env(APPDATA)]
+set store_parent [file join $appdata "Xilinx" "Vivado"]
+set vivado_ver   [version -short]
+set store_root   [file join $store_parent $vivado_ver]
+
+# Candidate board repo roots. Board Manager has used both "xhub" and
+# "xhubStore_<uuid>" directory names, and the per-user store sits beside the
+# Vivado installation rather than inside it, so probe each shape and keep
+# whatever is really there instead of assuming one layout.
+set candidates [list \
+  [file join $store_root "xhub" "board_store" "xilinx_board_store" \
+                       "XilinxBoardStore" "Vivado" $vivado_ver "boards"] \
+  [file join $store_root "data" "boards"] \
+  [file join $store_root "xhub" "data" "boards"] \
+  [file join $store_root "xhub" "xhubStore" "data" "boards"] \
+]
+foreach store [glob -nocomplain [file join $store_root "xhubStore_*"]] {
+  lappend candidates [file join $store "data" "boards"]
+}
+foreach store [glob -nocomplain [file join $store_root "xhub" "xhubStore_*"]] {
+  lappend candidates [file join $store "data" "boards"]
+}
+
+set repo_paths {}
+foreach c $candidates {
+  if {[file isdirectory $c] && [lsearch -exact $repo_paths $c] < 0} {
+    lappend repo_paths $c
+  }
+}
+if {[llength $repo_paths] > 0} {
+  set_param board.repoPaths $repo_paths
+  puts "INFO: board.repoPaths = $repo_paths"
+} else {
+  puts "INFO: no board dir found under $store_root"
+  puts "INFO: run Tools -> Board Manager in the Vivado GUI first, or get_board_parts stays empty"
+}
+
 file delete -force $out_dir
 create_project ofdm_bd $out_dir -part $part_name -force
 set_property target_language Verilog [current_project]
@@ -49,9 +97,17 @@ set_property source_mgmt_mode All [current_project]
 set use_preset 0
 set zb [get_board_parts -quiet *zedboard*]
 if {[llength $zb] > 0} {
-  set_property board_part [lindex $zb 0] [current_project]
+  # Pin a specific revision instead of taking lindex 0, which is whichever
+  # version happens to sort first and changes if Board Manager fetches another.
+  set zb_pick [lsearch -exact $zb avnet.com:zedboard:1.4]
+  if {$zb_pick < 0} { set zb_pick 0 }
+  set zb_sel [lindex $zb $zb_pick]
+  set_property board_part $zb_sel [current_project]
   set use_preset 1
-  puts "INFO: using board part [lindex $zb 0]"
+  puts "INFO: using board part $zb_sel"
+  if {[llength $zb] > 1} {
+    puts "INFO: other zedboard board parts available: $zb"
+  }
 } else {
   puts "INFO: no ZedBoard board files found; PS7 DDR/MIO use defaults"
 }
