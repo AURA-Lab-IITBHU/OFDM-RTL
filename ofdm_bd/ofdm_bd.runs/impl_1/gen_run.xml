@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1790958301">
+  <File Type="ROUTE-PWR" Name="ofdm_system_wrapper_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="ofdm_system_wrapper.tcl"/>
+  <File Type="ROUTE-PWR-SUM" Name="ofdm_system_wrapper_power_summary_routed.pb"/>
+  <File Type="OPT-RQA-PB" Name="ofdm_system_wrapper_rqa_opted.pb"/>
+  <File Type="REPORTS-TCL" Name="ofdm_system_wrapper_reports.tcl"/>
+  <File Type="INIT-TIMING" Name="ofdm_system_wrapper_timing_summary_init.rpt"/>
+  <File Type="OPT-DCP" Name="ofdm_system_wrapper_opt.dcp"/>
+  <File Type="OPT-DRC" Name="ofdm_system_wrapper_drc_opted.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="ofdm_system_wrapper_routed_bb.dcp"/>
+  <File Type="OPT-UTIL" Name="ofdm_system_wrapper_utilization_opted.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="ofdm_system_wrapper_timing_summary_routed.pb"/>
+  <File Type="OPT-UTIL-PB" Name="ofdm_system_wrapper_utilization_opted.pb"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="ofdm_system_wrapper_methodology_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="ofdm_system_wrapper.hwdef"/>
+  <File Type="OPT-TIMING" Name="ofdm_system_wrapper_timing_summary_opted.rpt"/>
+  <File Type="PWROPT-DCP" Name="ofdm_system_wrapper_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="ofdm_system_wrapper_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="ofdm_system_wrapper_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="ofdm_system_wrapper_placed.dcp"/>
+  <File Type="PLACE-IO" Name="ofdm_system_wrapper_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="ofdm_system_wrapper_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="ofdm_system_wrapper_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="ofdm_system_wrapper_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="ofdm_system_wrapper_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="ofdm_system_wrapper_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="ofdm_system_wrapper_incremental_reuse_pre_placed.rpt"/>
+  <File Type="BG-BIN" Name="ofdm_system_wrapper.bin"/>
+  <File Type="PLACE-TIMING" Name="ofdm_system_wrapper_timing_summary_placed.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="ofdm_system_wrapper_power_routed.rpx"/>
+  <File Type="PLACE-RQA-PB" Name="ofdm_system_wrapper_rqa_placed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="ofdm_system_wrapper_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="ofdm_system_wrapper_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="ofdm_system_wrapper_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="ofdm_system_wrapper_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="ofdm_system_wrapper_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-UTIL" Name="ofdm_system_wrapper_utilization_routed.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="ofdm_system_wrapper_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="ofdm_system_wrapper_routed.dcp"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="ofdm_system_wrapper_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-UTIL-PB" Name="ofdm_system_wrapper_utilization_routed.pb"/>
+  <File Type="ROUTE-DRC" Name="ofdm_system_wrapper_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="ofdm_system_wrapper_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="ofdm_system_wrapper_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="ofdm_system_wrapper_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="ofdm_system_wrapper_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="ofdm_system_wrapper_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-RQS-PB" Name="ofdm_system_wrapper_rqs_routed.pb"/>
+  <File Type="ROUTE-STATUS" Name="ofdm_system_wrapper_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="ofdm_system_wrapper_route_status.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="ofdm_system_wrapper_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="ofdm_system_wrapper_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="ofdm_system_wrapper_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="ofdm_system_wrapper_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="ofdm_system_wrapper_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="ofdm_system_wrapper_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="ofdm_system_wrapper_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="ofdm_system_wrapper_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="ofdm_system_wrapper_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="ofdm_system_wrapper_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="ofdm_system_wrapper_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="ofdm_system_wrapper_bus_skew_postroute_physopted.rpt"/>
+  <File Type="BG-BIT" Name="ofdm_system_wrapper.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="ofdm_system_wrapper_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="ofdm_system_wrapper_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-MSK" Name="ofdm_system_wrapper.msk"/>
+  <File Type="BITSTR-RBT" Name="ofdm_system_wrapper.rbt"/>
+  <File Type="BITSTR-NKY" Name="ofdm_system_wrapper.nky"/>
+  <File Type="BITSTR-BMM" Name="ofdm_system_wrapper_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="ofdm_system_wrapper.mmi"/>
+  <File Type="PDI-FILE" Name="ofdm_system_wrapper.pdi"/>
+  <File Type="BOOT-PDI-FILE" Name="ofdm_system_wrapper_boot.pdi"/>
+  <File Type="PL-PDI-FILE" Name="ofdm_system_wrapper_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="ofdm_system_wrapper.rcfi"/>
+  <File Type="CFI_FILE" Name="ofdm_system_wrapper.cfi"/>
+  <File Type="RNPI_FILE" Name="ofdm_system_wrapper.rnpi"/>
+  <File Type="RCDO-FILE" Name="ofdm_system_wrapper.rcdo"/>
+  <File Type="MARKER-RNPI-FILE" Name="ofdm_system_wrapper_markers.rnpi"/>
+  <File Type="MARKER-RCDO-FILE" Name="ofdm_system_wrapper_markers.rcdo"/>
+  <File Type="BOOT_RNPI_FILE" Name="ofdm_system_wrapper_boot.rnpi"/>
+  <File Type="BOOT_MARKER_RNPI_FILE" Name="ofdm_system_wrapper_boot_markers.rnpi"/>
+  <File Type="PL_RNPI_FILE" Name="ofdm_system_wrapper_pld.rnpi"/>
+  <File Type="PL_MARKER_RNPI_FILE" Name="ofdm_system_wrapper_pld_markers.rnpi"/>
+  <File Type="PL_MASK_RNPI_FILE" Name="ofdm_system_wrapper_pld_mask.rnpi"/>
+  <File Type="PL_SHUTDOWN_RNPI_FILE" Name="ofdm_system_wrapper_pld_shutdown.rnpi"/>
+  <File Type="PL_UNMASK_RNPI_FILE" Name="ofdm_system_wrapper_pld_unmask.rnpi"/>
+  <File Type="PL-RCDO-FILE" Name="ofdm_system_wrapper_pld.rcdo"/>
+  <File Type="PL-CLEAR-RCDO-FILE" Name="ofdm_system_wrapper_pld_clear.rcdo"/>
+  <File Type="PL_MARKER_RCDO_FILE" Name="ofdm_system_wrapper_pld_markers.rcdo"/>
+  <File Type="PL_MASK_RCDO_FILE" Name="ofdm_system_wrapper_pld_mask.rcdo"/>
+  <File Type="PL_UNMASK_MARKER_RCDO_FILE" Name="ofdm_system_wrapper_pld_unmask_markers.rcdo"/>
+  <File Type="PL_UNMASK_RCDO_FILE" Name="ofdm_system_wrapper_pld_unmask.rcdo"/>
+  <File Type="NPI_FILE" Name="ofdm_system_wrapper.npi"/>
+  <File Type="RBD_FILE" Name="ofdm_system_wrapper.rbd"/>
+  <File Type="MMI-FILE" Name="ofdm_system_wrapper.mmi"/>
+  <File Type="BIF-FILE" Name="ofdm_system_wrapper.bif"/>
+  <File Type="BOOT-BIF-FILE" Name="ofdm_system_wrapper_boot.bif"/>
+  <File Type="PL-BIF-FILE" Name="ofdm_system_wrapper_pld.bif"/>
+  <File Type="LTX-FILE" Name="ofdm_system_wrapper.ltx"/>
+  <File Type="BOOT-LTX-FILE" Name="ofdm_system_wrapper_boot.ltx"/>
+  <File Type="PL-LTX-FILE" Name="ofdm_system_wrapper_pld.ltx"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="ofdm_system_wrapper.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="ofdm_system_wrapper.sysdef"/>
+  <File Type="BG-BGN" Name="ofdm_system_wrapper.bgn"/>
+  <File Type="BG-DRC" Name="ofdm_system_wrapper.drc"/>
+  <File Type="RDI-RDI" Name="ofdm_system_wrapper.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="ROUTE-RQS" Name="ofdm_system_wrapper_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="ofdm_system_wrapper_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../src/zc_seq.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/map_to_subcarriers.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/qpsk_signal.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/qpsk_signal_128.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/FFT64.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/DelayBuffer.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Butterfly.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/SdfUnit.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/bit_reversal_buffer.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Twiddle64.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Multiply.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/ifft_64.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/qpsk.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/parallel_to_serial.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/serial_to_parallel.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/add_cp.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/uart_rx.v">
+      <FileInfo SFType="VHeader">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../full.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../fpga/ofdm_axi_lite.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/bd/ofdm_system/ofdm_system.bd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/hdl/ofdm_system_wrapper.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PGENDIR/sources_1/bd/ofdm_system/hdl/ofdm_system_wrapper.v"/>
+        <Attr Name="ImportTime" Val="1790958032"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="ofdm_system_wrapper"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Performance_ExplorePostRoutePhysOpt" Flow="Vivado Implementation 2025">
+      <Desc>Similar to Peformance_Explore, but enables the physical optimization step (phys_opt_design) with the Explore directive after routing.</Desc>
+    </StratHandle>
+    <Step Id="init_design"/>
+    <Step Id="opt_design">
+      <Option Id="Directive">0</Option>
+    </Step>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design">
+      <Option Id="Directive">0</Option>
+    </Step>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design">
+      <Option Id="Directive">0</Option>
+    </Step>
+    <Step Id="route_design">
+      <Option Id="Directive">0</Option>
+      <Option Id="MoreOptsStr"><![CDATA[-tns_cleanup]]></Option>
+    </Step>
+    <Step Id="post_route_phys_opt_design" EnableStepBool="1">
+      <Option Id="Directive">0</Option>
+    </Step>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+  <BlockFileSet Type="BlockSrcs" Name="ofdm_system_ofdm_axi_lite_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="ofdm_system_rst_ps7_0_50M_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="ofdm_system_ps7_0_axi_periph_imp_auto_pc_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="ofdm_system_processing_system7_0_0"/>
+</GenRun>

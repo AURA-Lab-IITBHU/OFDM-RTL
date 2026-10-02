@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Fri Oct  2 21:50:52 2026
+# Process ID         : 21064
+# Current directory  : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_processing_system7_0_0_synth_1
+# Command line       : vivado.exe -log ofdm_system_processing_system7_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ofdm_system_processing_system7_0_0.tcl
+# Log file           : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_processing_system7_0_0_synth_1/ofdm_system_processing_system7_0_0.vds
+# Journal file       : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_processing_system7_0_0_synth_1\vivado.jou
+# Running On         : Adityaa-Windows
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : Intel(R) Core(TM) Ultra 5 125H
+# CPU Frequency      : 2995 MHz
+# CPU Physical cores : 14
+# CPU Logical cores  : 18
+# Host memory        : 16730 MB
+# Swap memory        : 3480 MB
+# Total Virtual      : 20210 MB
+# Available Virtual  : 1299 MB
+#-----------------------------------------------------------
+source ofdm_system_processing_system7_0_0.tcl -notrace

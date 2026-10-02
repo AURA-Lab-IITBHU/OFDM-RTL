@@ -1,0 +1,806 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Fri Oct  2 21:50:52 2026
+# Process ID         : 3648
+# Current directory  : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_ofdm_axi_lite_0_0_synth_1
+# Command line       : vivado.exe -log ofdm_system_ofdm_axi_lite_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ofdm_system_ofdm_axi_lite_0_0.tcl
+# Log file           : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_ofdm_axi_lite_0_0_synth_1/ofdm_system_ofdm_axi_lite_0_0.vds
+# Journal file       : C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_ofdm_axi_lite_0_0_synth_1\vivado.jou
+# Running On         : Adityaa-Windows
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : Intel(R) Core(TM) Ultra 5 125H
+# CPU Frequency      : 2995 MHz
+# CPU Physical cores : 14
+# CPU Logical cores  : 18
+# Host memory        : 16730 MB
+# Swap memory        : 3480 MB
+# Total Virtual      : 20210 MB
+# Available Virtual  : 1327 MB
+#-----------------------------------------------------------
+source ofdm_system_ofdm_axi_lite_0_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 523.340 ; gain = 213.383
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/2025.1/Vivado/data/ip'.
+Command: synth_design -top ofdm_system_ofdm_axi_lite_0_0 -part xc7z020clg484-1 -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 5996
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 1260.992 ; gain = 491.684
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'ofdm_system_ofdm_axi_lite_0_0' [c:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.gen/sources_1/bd/ofdm_system/ip/ofdm_system_ofdm_axi_lite_0_0/synth/ofdm_system_ofdm_axi_lite_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'ofdm_axi_lite' [C:/Users/adira/Desktop/OFDM-RTL/fpga/ofdm_axi_lite.v:25]
+	Parameter ADDR_W bound to: 12 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'ofdm_generate_frame' [C:/Users/adira/Desktop/OFDM-RTL/full.v:30]
+INFO: [Synth 8-6157] synthesizing module 'zc_sequence_generator' [C:/Users/adira/Desktop/OFDM-RTL/src/zc_seq.v:18]
+	Parameter SUB_COUNT bound to: 64 - type: integer 
+	Parameter GUARD_COUNT bound to: 10 - type: integer 
+	Parameter DC_INDEX bound to: 32 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'zc_sequence_generator' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/zc_seq.v:18]
+INFO: [Synth 8-6157] synthesizing module 'qpsk_signal_128' [C:/Users/adira/Desktop/OFDM-RTL/src/qpsk_signal_128.v:12]
+INFO: [Synth 8-6157] synthesizing module 'qpsk_signal' [C:/Users/adira/Desktop/OFDM-RTL/src/qpsk_signal.v:16]
+INFO: [Synth 8-6155] done synthesizing module 'qpsk_signal' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/qpsk_signal.v:16]
+INFO: [Synth 8-6155] done synthesizing module 'qpsk_signal_128' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/qpsk_signal_128.v:12]
+INFO: [Synth 8-6157] synthesizing module 'parameterized_map_to_subcarriers' [C:/Users/adira/Desktop/OFDM-RTL/src/map_to_subcarriers.v:19]
+	Parameter SUBCARRIER_COUNT bound to: 64 - type: integer 
+	Parameter GUARD_COUNT bound to: 10 - type: integer 
+	Parameter DC bound to: 32 - type: integer 
+	Parameter LAST_GUARD_INDEX bound to: 9 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'parameterized_map_to_subcarriers' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/map_to_subcarriers.v:19]
+INFO: [Synth 8-6157] synthesizing module 'parallel_to_serial' [C:/Users/adira/Desktop/OFDM-RTL/src/parallel_to_serial.v:8]
+	Parameter N bound to: 64 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'parallel_to_serial' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/parallel_to_serial.v:8]
+INFO: [Synth 8-6157] synthesizing module 'ifft_64' [C:/Users/adira/Desktop/OFDM-RTL/src/ifft_64.v:19]
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'FFT' [C:/Users/adira/Desktop/OFDM-RTL/src/FFT64.v:15]
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'SdfUnit' [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+	Parameter N bound to: 64 - type: integer 
+	Parameter M bound to: 64 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'Butterfly' [C:/Users/adira/Desktop/OFDM-RTL/src/Butterfly.v:15]
+	Parameter WIDTH bound to: 16 - type: integer 
+	Parameter RH bound to: 0 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'Butterfly' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/Butterfly.v:15]
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 32 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6157] synthesizing module 'Butterfly__parameterized0' [C:/Users/adira/Desktop/OFDM-RTL/src/Butterfly.v:15]
+	Parameter WIDTH bound to: 16 - type: integer 
+	Parameter RH bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'Butterfly__parameterized0' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/Butterfly.v:15]
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer__parameterized0' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 16 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer__parameterized0' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6157] synthesizing module 'Twiddle' [C:/Users/adira/Desktop/OFDM-RTL/src/Twiddle64.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'Twiddle' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/Twiddle64.v:15]
+INFO: [Synth 8-6157] synthesizing module 'Multiply' [C:/Users/adira/Desktop/OFDM-RTL/src/Multiply.v:15]
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'Multiply' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/Multiply.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'SdfUnit' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+INFO: [Synth 8-6157] synthesizing module 'SdfUnit__parameterized0' [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+	Parameter N bound to: 64 - type: integer 
+	Parameter M bound to: 16 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer__parameterized1' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 8 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer__parameterized1' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer__parameterized2' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 4 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer__parameterized2' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'SdfUnit__parameterized0' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+INFO: [Synth 8-6157] synthesizing module 'SdfUnit__parameterized1' [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+	Parameter N bound to: 64 - type: integer 
+	Parameter M bound to: 4 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer__parameterized3' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 2 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer__parameterized3' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6157] synthesizing module 'DelayBuffer__parameterized4' [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+	Parameter DEPTH bound to: 1 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'DelayBuffer__parameterized4' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/DelayBuffer.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'SdfUnit__parameterized1' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'FFT' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/FFT64.v:15]
+INFO: [Synth 8-6157] synthesizing module 'bit_reversal_buffer' [C:/Users/adira/Desktop/OFDM-RTL/src/bit_reversal_buffer.v:27]
+	Parameter N bound to: 64 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+	Parameter BANKS bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'bit_reversal_buffer' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/bit_reversal_buffer.v:27]
+INFO: [Synth 8-6155] done synthesizing module 'ifft_64' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/ifft_64.v:19]
+INFO: [Synth 8-6157] synthesizing module 'serial_to_parallel' [C:/Users/adira/Desktop/OFDM-RTL/src/serial_to_parallel.v:9]
+	Parameter N bound to: 64 - type: integer 
+	Parameter WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'serial_to_parallel' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/serial_to_parallel.v:9]
+INFO: [Synth 8-6157] synthesizing module 'parameterized_add_cp' [C:/Users/adira/Desktop/OFDM-RTL/src/add_cp.v:13]
+	Parameter SYMBOL_LEN bound to: 80 - type: integer 
+	Parameter SUBCARRIER_COUNT bound to: 64 - type: integer 
+	Parameter CP_LENGTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'parameterized_add_cp' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/src/add_cp.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'ofdm_generate_frame' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/full.v:30]
+INFO: [Synth 8-6155] done synthesizing module 'ofdm_axi_lite' (0#1) [C:/Users/adira/Desktop/OFDM-RTL/fpga/ofdm_axi_lite.v:25]
+INFO: [Synth 8-6155] done synthesizing module 'ofdm_system_ofdm_axi_lite_0_0' (0#1) [c:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.gen/sources_1/bd/ofdm_system/ip/ofdm_system_ofdm_axi_lite_0_0/synth/ofdm_system_ofdm_axi_lite_0_0.v:53]
+WARNING: [Synth 8-6014] Unused sequential element mu_do_re_reg was removed.  [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:271]
+WARNING: [Synth 8-6014] Unused sequential element mu_do_im_reg was removed.  [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:272]
+WARNING: [Synth 8-6014] Unused sequential element mu_do_en_reg was removed.  [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:277]
+WARNING: [Synth 8-6014] Unused sequential element mu_en_reg was removed.  [C:/Users/adira/Desktop/OFDM-RTL/src/SdfUnit.v:255]
+WARNING: [Synth 8-7137] Register buf_re_reg in module bit_reversal_buffer has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code 
+WARNING: [Synth 8-7137] Register buf_im_reg in module bit_reversal_buffer has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code 
+WARNING: [Synth 8-4767] Trying to implement RAM 'buf_re_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
+Reason is one or more of the following :
+	1: RAM is sensitive to asynchronous reset signal. this RTL style is not supported. 
+RAM "buf_re_reg" dissolved into registers
+WARNING: [Synth 8-4767] Trying to implement RAM 'buf_im_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
+Reason is one or more of the following :
+	1: RAM is sensitive to asynchronous reset signal. this RTL style is not supported. 
+RAM "buf_im_reg" dissolved into registers
+WARNING: [Synth 8-7137] Register parallel_data_reg in module serial_to_parallel has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/adira/Desktop/OFDM-RTL/src/serial_to_parallel.v:36]
+WARNING: [Synth 8-7137] Register ofdm_frame_reg in module ofdm_generate_frame has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/adira/Desktop/OFDM-RTL/full.v:250]
+WARNING: [Synth 8-6014] Unused sequential element s_axi_wready_reg was removed.  [C:/Users/adira/Desktop/OFDM-RTL/fpga/ofdm_axi_lite.v:111]
+WARNING: [Synth 8-7129] Port zc_seq[2047] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2046] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2045] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2044] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2043] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2042] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2041] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2040] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2039] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2038] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2037] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2036] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2035] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2034] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2033] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2032] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2031] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2030] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2029] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2028] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2027] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2026] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2025] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2024] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2023] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2022] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2021] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2020] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2019] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2018] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2017] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2016] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2015] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2014] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2013] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2012] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2011] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2010] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2009] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2008] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2007] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2006] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2005] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2004] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2003] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2002] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2001] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[2000] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1999] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1998] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1997] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1996] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1995] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1994] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1993] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1992] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1991] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1990] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1989] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1988] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1987] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1986] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1985] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1984] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1983] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1982] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1981] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1980] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1979] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1978] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1977] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1976] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1975] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1974] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1973] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1972] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1971] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1970] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1969] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1968] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1967] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1966] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1965] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1964] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1963] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1962] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1961] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1960] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1959] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1958] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1957] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1956] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1955] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1954] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1953] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1952] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1951] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1950] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1949] in module parameterized_map_to_subcarriers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port zc_seq[1948] in module parameterized_map_to_subcarriers is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1469.926 ; gain = 700.617
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1469.926 ; gain = 700.617
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1469.926 ; gain = 700.617
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.583 . Memory (MB): peak = 1469.926 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 1694.617 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.346 . Memory (MB): peak = 1707.125 ; gain = 12.508
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 1707.125 ; gain = 937.816
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 1707.125 ; gain = 937.816
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 1707.125 ; gain = 937.816
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'ofdm_generate_frame'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                                0 |                               00
+                     RUN |                                1 |                               01
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'ofdm_generate_frame'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:27 ; elapsed = 00:00:27 . Memory (MB): peak = 1707.125 ; gain = 937.816
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 12    
+	   2 Input   17 Bit       Adders := 12    
+	   3 Input   17 Bit       Adders := 12    
+	   3 Input   16 Bit       Adders := 3     
+	   2 Input   16 Bit       Adders := 6     
+	   2 Input   10 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 13    
+	   2 Input    3 Bit       Adders := 3     
+	   2 Input    2 Bit       Adders := 2     
++---Registers : 
+	            10240 Bit    Registers := 1     
+	             2560 Bit    Registers := 1     
+	             2048 Bit    Registers := 2     
+	              128 Bit    Registers := 1     
+	               32 Bit    Registers := 1     
+	               16 Bit    Registers := 790   
+	                6 Bit    Registers := 13    
+	                3 Bit    Registers := 2     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 38    
++---ROMs : 
+	                    ROMs := 6     
++---Muxes : 
+	   2 Input 10240 Bit        Muxes := 3     
+	   2 Input 2048 Bit        Muxes := 2     
+	   2 Input   32 Bit        Muxes := 119   
+	   2 Input   16 Bit        Muxes := 36    
+	   2 Input    6 Bit        Muxes := 10    
+	   3 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 35    
+	   3 Input    1 Bit        Muxes := 1     
+	   6 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3917] design ofdm_system_ofdm_axi_lite_0_0 has port s_axi_bresp[1] driven by constant 0
+INFO: [Synth 8-3917] design ofdm_system_ofdm_axi_lite_0_0 has port s_axi_bresp[0] driven by constant 0
+INFO: [Synth 8-3917] design ofdm_system_ofdm_axi_lite_0_0 has port s_axi_rresp[1] driven by constant 0
+INFO: [Synth 8-3917] design ofdm_system_ofdm_axi_lite_0_0 has port s_axi_rresp[0] driven by constant 0
+DSP Report: Generating DSP u_ifft/u_fft/SU1/MU/arbr, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU1/TW/ff_re_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/arbr.
+DSP Report: register u_ifft/u_fft/SU1/bf2_do_re_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/arbr.
+DSP Report: operator u_ifft/u_fft/SU1/MU/arbr is absorbed into DSP u_ifft/u_fft/SU1/MU/arbr.
+DSP Report: Generating DSP u_ifft/u_fft/SU1/MU/aibi, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU1/TW/ff_im_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/aibi.
+DSP Report: register u_ifft/u_fft/SU1/bf2_do_im_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/aibi.
+DSP Report: operator u_ifft/u_fft/SU1/MU/aibi is absorbed into DSP u_ifft/u_fft/SU1/MU/aibi.
+DSP Report: Generating DSP u_ifft/u_fft/SU1/MU/arbi, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU1/TW/ff_im_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/arbi.
+DSP Report: register u_ifft/u_fft/SU1/bf2_do_re_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/arbi.
+DSP Report: operator u_ifft/u_fft/SU1/MU/arbi is absorbed into DSP u_ifft/u_fft/SU1/MU/arbi.
+DSP Report: Generating DSP u_ifft/u_fft/SU1/MU/aibr, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU1/TW/ff_re_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/aibr.
+DSP Report: register u_ifft/u_fft/SU1/bf2_do_im_reg is absorbed into DSP u_ifft/u_fft/SU1/MU/aibr.
+DSP Report: operator u_ifft/u_fft/SU1/MU/aibr is absorbed into DSP u_ifft/u_fft/SU1/MU/aibr.
+DSP Report: Generating DSP u_ifft/u_fft/SU2/MU/arbr, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU2/TW/ff_re_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/arbr.
+DSP Report: register u_ifft/u_fft/SU2/bf2_do_re_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/arbr.
+DSP Report: operator u_ifft/u_fft/SU2/MU/arbr is absorbed into DSP u_ifft/u_fft/SU2/MU/arbr.
+DSP Report: Generating DSP u_ifft/u_fft/SU2/MU/aibi, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU2/TW/ff_im_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/aibi.
+DSP Report: register u_ifft/u_fft/SU2/bf2_do_im_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/aibi.
+DSP Report: operator u_ifft/u_fft/SU2/MU/aibi is absorbed into DSP u_ifft/u_fft/SU2/MU/aibi.
+DSP Report: Generating DSP u_ifft/u_fft/SU2/MU/arbi, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU2/TW/ff_im_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/arbi.
+DSP Report: register u_ifft/u_fft/SU2/bf2_do_re_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/arbi.
+DSP Report: operator u_ifft/u_fft/SU2/MU/arbi is absorbed into DSP u_ifft/u_fft/SU2/MU/arbi.
+DSP Report: Generating DSP u_ifft/u_fft/SU2/MU/aibr, operation Mode is: A2*B2.
+DSP Report: register u_ifft/u_fft/SU2/TW/ff_re_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/aibr.
+DSP Report: register u_ifft/u_fft/SU2/bf2_do_im_reg is absorbed into DSP u_ifft/u_fft/SU2/MU/aibr.
+DSP Report: operator u_ifft/u_fft/SU2/MU/aibr is absorbed into DSP u_ifft/u_fft/SU2/MU/aibr.
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[15] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[8] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[7] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[6] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[5] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[4] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[3] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[2] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[1] driven by constant 0
+WARNING: [Synth 8-3917] design ofdm_generate_frame__GB2 has port P[0] driven by constant 0
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[53].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[52].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[50].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[49].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[48].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[47].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[46].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[44].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[43].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[42].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[41].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[40].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[38].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[37].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[36].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[35].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[34].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[31].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[30].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[29].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[28].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[26].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[25].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[24].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[23].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[22].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[20].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[19].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[18].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[17].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[16].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[14].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[13].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[12].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[11].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[10].inst/Q_reg[0] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[53].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[52].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[50].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[49].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[48].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[47].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[46].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[44].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[43].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[42].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[41].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[40].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[38].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[37].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[36].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[35].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[34].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[31].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[30].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[29].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[28].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[26].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[25].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[24].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[23].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[22].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[20].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[19].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[18].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[17].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[16].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[14].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[13].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[12].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[11].inst/Q_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u_qpsk/genblk1[10].inst/Q_reg[1] )
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[53].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[53].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[52].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[52].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[50].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[50].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[49].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[49].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[48].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[48].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[47].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[47].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[46].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[46].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[44].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[44].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[43].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[43].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[42].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[42].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[41].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[41].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[40].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[40].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[38].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[38].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[37].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[37].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[36].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[36].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[35].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[35].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[34].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[34].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[31].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[31].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[30].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[30].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[29].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[29].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[28].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[28].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[26].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[26].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[25].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[25].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[24].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[24].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[23].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[23].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[22].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[22].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[20].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[20].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[19].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[19].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[18].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[18].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[17].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[17].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[16].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[16].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[14].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[14].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[13].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[13].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[12].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[12].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[11].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[11].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[10].inst/Q_reg[2]' (FDS) to 'u_qpsk/genblk1[10].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[53].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[53].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[52].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[52].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[50].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[50].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[49].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[49].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[48].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[48].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[47].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[47].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[46].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[46].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[44].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[44].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[43].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[43].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[42].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[42].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[41].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[41].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[40].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[40].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[38].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[38].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[37].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[37].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[36].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[36].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[35].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[35].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[34].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[34].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[31].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[31].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[30].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[30].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[29].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[29].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[28].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[28].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[26].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[26].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[25].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[25].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[24].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[24].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[23].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[23].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[22].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[22].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[20].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[20].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[19].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[19].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[18].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[18].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[17].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[17].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[16].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[16].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[14].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[14].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[13].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[13].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[12].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[12].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[11].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[11].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[10].inst/Q_reg[3]' (FDS) to 'u_qpsk/genblk1[10].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[53].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[53].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[52].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[52].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[50].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[50].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[49].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[49].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[48].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[48].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[47].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[47].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[46].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[46].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[44].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[44].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[43].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[43].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[42].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[42].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[41].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[41].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[40].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[40].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[38].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[38].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[37].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[37].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[36].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[36].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[35].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[35].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[34].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[34].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[31].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[31].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[30].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[30].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[29].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[29].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[28].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[28].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[26].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[26].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[25].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[25].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[24].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[24].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[23].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[23].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[22].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[22].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[20].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[20].inst/Q_reg[15]'
+INFO: [Synth 8-3886] merging instance 'u_qpsk/genblk1[19].inst/Q_reg[4]' (FDS) to 'u_qpsk/genblk1[19].inst/Q_reg[15]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[53].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[52].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[50].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[49].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[48].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[47].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[46].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[44].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[43].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[42].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[41].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[40].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[38].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[37].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[36].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[35].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[34].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[31].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[30].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[29].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[28].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[26].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[25].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[24].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[23].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[22].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[20].inst/I_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_qpsk/genblk1[19].inst/I_reg[0] )
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:53 ; elapsed = 00:01:25 . Memory (MB): peak = 1707.125 ; gain = 937.816
+---------------------------------------------------------------------------------
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU1/MU/aibi_3 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU1/MU/aibr_0 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU1/MU/arbi_2 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU1/MU/arbr_4 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU2/MU/aibi_5 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU2/MU/aibr_7 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU2/MU/arbi_8 : 0 0 : 1969 1969 : Used 1 time 0
+ Sort Area is ofdm_generate_frame__GB1 u_ifft/u_fft/SU2/MU/arbr_6 : 0 0 : 1969 1969 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name              | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A2*B2       | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:03 ; elapsed = 00:01:35 . Memory (MB): peak = 1792.898 ; gain = 1023.590
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:08 ; elapsed = 00:01:40 . Memory (MB): peak = 1854.855 ; gain = 1085.547
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:14 ; elapsed = 00:01:54 . Memory (MB): peak = 1867.859 ; gain = 1098.551
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:23 ; elapsed = 00:02:02 . Memory (MB): peak = 1997.121 ; gain = 1227.812
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:23 ; elapsed = 00:02:02 . Memory (MB): peak = 1997.121 ; gain = 1227.812
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:25 ; elapsed = 00:02:05 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:32 ; elapsed = 00:02:12 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:33 ; elapsed = 00:02:13 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:33 ; elapsed = 00:02:13 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++------------------------------+-----------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name                   | RTL Name                                            | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------------------------+-----------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU1/DB1/buf_re_reg[31][15] | 32     | 16    | NO           | NO                 | YES               | 0      | 16      | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU1/DB1/buf_im_reg[31][15] | 32     | 16    | NO           | NO                 | YES               | 0      | 16      | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU1/DB2/buf_re_reg[15][15] | 16     | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU1/DB2/buf_im_reg[15][15] | 16     | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU2/DB1/buf_re_reg[7][15]  | 8      | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU2/DB1/buf_im_reg[7][15]  | 8      | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU2/DB2/buf_re_reg[3][15]  | 4      | 16    | NO           | NO                 | YES               | 16     | 0       | 
+|ofdm_system_ofdm_axi_lite_0_0 | inst/u_core/u_ifft/u_fft/SU2/DB2/buf_im_reg[3][15]  | 4      | 16    | NO           | NO                 | YES               | 16     | 0       | 
++------------------------------+-----------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name              | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
+|ofdm_generate_frame__GB1 | A'*B'       | 30     | 18     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 0    | 
++-------------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |CARRY4  |   204|
+|2     |DSP48E1 |     8|
+|3     |LUT1    |   157|
+|4     |LUT2    |   570|
+|5     |LUT3    |  4520|
+|6     |LUT4    | 11169|
+|7     |LUT5    |  1090|
+|8     |LUT6    | 12919|
+|9     |MUXF7   |  2446|
+|10    |MUXF8   |  1091|
+|11    |SRL16E  |    96|
+|12    |SRLC32E |    32|
+|13    |FDCE    |  2567|
+|14    |FDPE    |    15|
+|15    |FDRE    | 21326|
+|16    |FDSE    |     1|
++------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:34 ; elapsed = 00:02:13 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 118 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:18 ; elapsed = 00:02:06 . Memory (MB): peak = 2000.871 ; gain = 994.363
+Synthesis Optimization Complete : Time (s): cpu = 00:01:34 ; elapsed = 00:02:14 . Memory (MB): peak = 2000.871 ; gain = 1231.562
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.385 . Memory (MB): peak = 2027.211 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 3749 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.014 . Memory (MB): peak = 2037.609 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 7f220eb6
+INFO: [Common 17-83] Releasing license: Synthesis
+282 Infos, 121 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:44 ; elapsed = 00:02:28 . Memory (MB): peak = 2037.609 ; gain = 1494.141
+INFO: [Coretcl 2-1174] Renamed 63 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.071 . Memory (MB): peak = 2037.609 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/adira/Desktop/OFDM-RTL/ofdm_bd/ofdm_bd.runs/ofdm_system_ofdm_axi_lite_0_0_synth_1/ofdm_system_ofdm_axi_lite_0_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file ofdm_system_ofdm_axi_lite_0_0_utilization_synth.rpt -pb ofdm_system_ofdm_axi_lite_0_0_utilization_synth.pb
+write_vhdl: Time (s): cpu = 00:00:40 ; elapsed = 00:00:41 . Memory (MB): peak = 2037.609 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Fri Oct  2 21:54:13 2026...
