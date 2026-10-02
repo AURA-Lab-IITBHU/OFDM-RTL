@@ -6,6 +6,12 @@
 //----------------------------------------------------------------------
 //  Butterfly: Add/Sub and Scaling
 //----------------------------------------------------------------------
+//----------------------------------------------------------------
+// Vendored from r22sdf-master. Lint waiver below is the only local
+// edit: the radix-2^2 fixed-point ">>> 1" scaling narrows 17 bits to 16 by design.
+// Re-vendoring replaces this file wholesale.
+//----------------------------------------------------------------
+/* verilator lint_off WIDTHTRUNC */
 module Butterfly #(
     parameter   WIDTH = 16,
     parameter   RH = 0  //  Round Half Up

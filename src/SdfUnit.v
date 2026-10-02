@@ -6,6 +6,12 @@
 //----------------------------------------------------------------------
 //  SdfUnit: Radix-2^2 Single-Path Delay Feedback Unit for N-Point FFT
 //----------------------------------------------------------------------
+//----------------------------------------------------------------
+// Vendored from r22sdf-master. Lint waiver below is the only local
+// edit: the stage-sel shift intentionally wraps.
+// Re-vendoring replaces this file wholesale.
+//----------------------------------------------------------------
+/* verilator lint_off WIDTHTRUNC */
 module SdfUnit #(
     parameter   N = 64,     //  Number of FFT Point
     parameter   M = 64,     //  Twiddle Resolution

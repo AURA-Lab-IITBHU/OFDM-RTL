@@ -8,13 +8,13 @@
 //  - The FFT core already scales by 1/N, so the output is exactly IFFT(x)
 //  Latency: ~71 (FFT) + 64 (buffer) + 2 = ~137 cycles
 
-`include "FFT64.v"
-`include "SdfUnit.v"
-`include "Butterfly.v"
-`include "Twiddle64.v"
-`include "DelayBuffer.v"
-`include "Multiply.v"
-`include "bit_reversal_buffer.v"
+`include "./FFT64.v"
+`include "./SdfUnit.v"
+`include "./Butterfly.v"
+`include "./Twiddle64.v"
+`include "./DelayBuffer.v"
+`include "./Multiply.v"
+`include "./bit_reversal_buffer.v"
 
 module ifft_64 #(
     parameter WIDTH = 16
@@ -51,9 +51,12 @@ module ifft_64 #(
     wire [WIDTH-1:0] conj_im = -fft_do_im;
 
     // Sticky: latches high if more frames arrive than the buffer's bank count can
-    // hold, meaning samples were dropped. Not propagated up to keep this module's
-    // port list unchanged; observe at u_br.overflow.
+    // hold, meaning samples were dropped. Deliberately not propagated to this
+    // module's port list; probe it at u_br.overflow. See the known-gaps section
+    // of AGENTS.md -- surfacing it as a status bit is an open design change.
+/* verilator lint_off UNUSEDSIGNAL */
     wire br_overflow;
+/* verilator lint_on UNUSEDSIGNAL */
 
     bit_reversal_buffer #(.N(64), .WIDTH(WIDTH), .BANKS(4)) u_br (
         .clk      (clk),

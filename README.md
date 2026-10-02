@@ -43,6 +43,10 @@ bare filenames.
 # lint the whole tree
 iverilog -Wall -t null -I src full.v src/*.v testbenches/*.v
 
+# strict lint: must be warning-free on both tops
+verilator --lint-only -Wall -Isrc --top-module ofdm_generate_frame full.v
+verilator --lint-only -Wall -Isrc --top-module ofdm_axi_lite fpga/ofdm_axi_lite.v full.v
+
 # run a testbench (list the DUT explicitly; there is no auto-discovery)
 iverilog -I src -o /tmp/sim.vvp src/zc_seq.v testbenches/tb_zc_seq.v && vvp /tmp/sim.vvp
 iverilog -I src -o /tmp/sim.vvp full.v   testbenches/tb_full.v      && vvp /tmp/sim.vvp
@@ -50,6 +54,28 @@ iverilog -I src -o /tmp/sim.vvp full.v   testbenches/tb_ofdm_frame.v && vvp /tmp
 iverilog -I src -o /tmp/sim.vvp full.v fpga/ofdm_axi_lite.v \
                                   testbenches/tb_ofdm_axi_lite.v   && vvp /tmp/sim.vvp
 ```
+
+Note the Verilator flag is `-Isrc` with no space — `-I src` is an Icarus spelling
+and Verilator rejects it.
+
+Both `verilator --lint-only -Wall` runs are warning-free, and CI enforces it. The
+handful of warnings that *are* intentional are waived inline with
+`/* verilator lint_off RULE */` directly above the code they cover, each with a
+comment saying why. There are no global `-Wno-` flags, so a genuinely new
+warning fails the build. Current waivers:
+
+| Rule | Where | Why |
+| --- | --- | --- |
+| `WIDTHTRUNC` | `Butterfly.v`, `Multiply.v`, `SdfUnit.v` | Vendored r22sdf; the fixed-point `>>>` scaling narrows on purpose |
+| `DECLFILENAME` | `zc_seq.v`, `map_to_subcarriers.v`, `add_cp.v`, `full.v`, `FFT64.v`, `Twiddle64.v` | Module name intentionally differs from the filename used by the build commands |
+| `UNUSEDSIGNAL` | `full.v` | `parallel_to_serial.frame_done` is driven but unread (see below) |
+| `UNUSEDSIGNAL` | `ifft_64.v` | `br_overflow` is not propagated to the port list (see Known limitations) |
+| `UNUSEDSIGNAL` | `ofdm_axi_lite.v` | `s_axi_wstrb` and the `[1:0]` byte lane of the AXI addresses are intentionally ignored |
+
+Two Verilator gotchas if you extend this: `-file "glob"` inside a `lint_off`
+metacomment is a **syntax error** (so vendored-file waivers must live in the
+vendored file), and a comment whose first word is `verilator` is parsed as a
+pragma directive, not prose.
 
 Testbenches print `[PASS]`/`[FAIL]` lines and an `error_count` summary, then
 always exit 0 — **read the output, do not trust `$?`**.
@@ -84,8 +110,12 @@ timing on that mux.
    `s_axi` AXI4-Lite interface — the `XIL_INTERFACENAME` attributes make this
    explicit rather than relying on Vivado's port-name inference.
 5. Connect `s_axi_aclk` ← `FCLK_CLK0`, `s_axi_aresetn` ← `FCLK_RESET0_N`
-   (inverted), and let Connection Automation wire the AXI-Lite port.
-6. Validate, then Generate Bitstream.
+   **directly** — `FCLK_RESET0_N` is already active-low, like
+   `s_axi_aresetn`, so no inverter is needed. Let Connection Automation wire
+   the AXI-Lite port.
+6. Add an XDC constraining `s_axi_aclk` to your `FCLK_CLK0` period (20 ns for
+   50 MHz), otherwise timing analysis reports the clock unconstrained.
+7. Validate, then Generate Bitstream.
 
 Set include directories to the repo root and `src/` if you ever add the RTL as
 design sources directly; `full.v` uses `src/`-prefixed paths.

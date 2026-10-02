@@ -20,6 +20,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y iverilog
 
+      - name: Install Verilator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator
+          verilator --version
+
       # The whole tree, testbenches and the AXI wrapper included, elaborates as
       # plain Verilog-2001, so no -g2012 is needed. That matters for FPGA work:
       # Vivado parses .v as Verilog-2001 by default. -I src is required so the
@@ -45,3 +51,13 @@ jobs:
           iverilog -I src -o /tmp/t.vvp full.v                  testbenches/tb_ofdm_frame.v  && vvp /tmp/t.vvp | grep -q "ALL OFDM FRAME TESTS PASSED"
           iverilog -I src -o /tmp/t.vvp full.v                  testbenches/tb_full.v        && vvp /tmp/t.vvp | grep -q "ALL OFDM GENERATE_FRAME TESTS PASSED"
           iverilog -I src -o /tmp/t.vvp full.v fpga/ofdm_axi_lite.v testbenches/tb_ofdm_axi_lite.v && vvp /tmp/t.vvp | grep -q "ALL OFDM AXI-LITE TESTS PASSED"
+
+      # Verilator -Wall must be warning-free on both tops. Note -Isrc with no
+      # space: Verilator does not accept "-I src". Intentional warnings are
+      # waived inline next to the code they cover (see AGENTS.md); nothing is
+      # waived here, so a new warning fails the build.
+      - name: Verilator Wall Lint
+        run: |
+          set -e
+          verilator --lint-only -Wall -Isrc --top-module ofdm_generate_frame full.v
+          verilator --lint-only -Wall -Isrc --top-module ofdm_axi_lite fpga/ofdm_axi_lite.v full.v

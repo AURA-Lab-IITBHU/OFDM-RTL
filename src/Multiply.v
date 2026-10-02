@@ -6,6 +6,12 @@
 //----------------------------------------------------------------------
 //  Multiply: Complex Multiplier
 //----------------------------------------------------------------------
+//----------------------------------------------------------------
+// Vendored from r22sdf-master. Lint waiver below is the only local
+// edit: the fixed-point ">>> 15" scaling narrows 32 bits to 16 by design.
+// Re-vendoring replaces this file wholesale.
+//----------------------------------------------------------------
+/* verilator lint_off WIDTHTRUNC */
 module Multiply #(
     parameter   WIDTH = 16
 )(

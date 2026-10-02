@@ -6,6 +6,10 @@
 
 // Complex add_cp: cyclic prefix on 32-bit complex symbols
 // Matches ofdm_hls.cc.cpp add_cp() with complex_fixed
+/* verilator lint_off DECLFILENAME */
+/* Module name intentionally differs from the filename: the filename is the
+   stage name used by the documented build commands, the module name is the
+   historical one. See AGENTS.md. */
 module parameterized_add_cp #(
     parameter SYMBOL_LEN       = 80,
     parameter SUBCARRIER_COUNT = 64,
