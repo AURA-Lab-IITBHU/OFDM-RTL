@@ -1,4 +1,8 @@
 `timescale 1ns / 1ps
+
+`ifndef UART_RX_V
+`define UART_RX_V
+
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -125,3 +129,4 @@ else if (state == D && count_clock == 9'd433)
         data <= temp_store;
 end  
 endmodule
+`endif

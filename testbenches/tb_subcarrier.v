@@ -2,32 +2,30 @@
 
 module tb_parameterized_map_to_subcarriers;
 
-    // Modified parameters to allow non-zero active data subcarriers
     parameter SUBCARRIER_COUNT = 64;
-    parameter GUARD_COUNT      = 6;
+    parameter GUARD_COUNT      = 10;
     parameter DC               = 32;
-    parameter LAST_GUARD_INDEX = 5; // First guard index edge
+    parameter LAST_GUARD_INDEX = 9;
+    parameter DATA_WIDTH       = 16;
 
-    // DUT Inputs & Outputs
     reg clk;
     reg sync;
     reg ref_sym;
     reg header;
-    reg [SUBCARRIER_COUNT-1:0] zc_seq;
-    reg [SUBCARRIER_COUNT-1:0] qpsk_symbol;
-    wire [SUBCARRIER_COUNT-1:0] subcarriers;
+    reg [SUBCARRIER_COUNT*32-1:0] zc_seq;
+    reg [SUBCARRIER_COUNT*32-1:0] qpsk_symbol;
+    wire [SUBCARRIER_COUNT*32-1:0] subcarriers;
 
-    // TB Variables
-    reg [SUBCARRIER_COUNT-1:0] expected_subcarriers;
+    reg [SUBCARRIER_COUNT*32-1:0] expected_subcarriers;
     integer error_count = 0;
     integer i;
 
-    // Instantiate DUT
     parameterized_map_to_subcarriers #(
         .SUBCARRIER_COUNT(SUBCARRIER_COUNT),
         .GUARD_COUNT(GUARD_COUNT),
         .DC(DC),
-        .LAST_GUARD_INDEX(LAST_GUARD_INDEX)
+        .LAST_GUARD_INDEX(LAST_GUARD_INDEX),
+        .DATA_WIDTH(DATA_WIDTH)
     ) dut (
         .clk(clk),
         .sync(sync),
@@ -40,28 +38,26 @@ module tb_parameterized_map_to_subcarriers;
 
     always #5 clk = ~clk;
 
-    // Output computation reference model
     task compute_expected;
         begin
             for (i = 0; i < SUBCARRIER_COUNT; i = i + 1) begin
                 if ((i == DC) || (i < GUARD_COUNT) || (i >= SUBCARRIER_COUNT - GUARD_COUNT)) begin
-                    expected_subcarriers[i] = 1'b0;
+                    expected_subcarriers[i*32 +: 32] = 32'h0000_0000;
                 end else if (sync) begin
-                    expected_subcarriers[i] = zc_seq[i];
+                    expected_subcarriers[i*32 +: 32] = zc_seq[i*32 +: 32];
                 end else if (ref_sym) begin
-                    expected_subcarriers[i] = 1'b1;
+                    expected_subcarriers[i*32 +: 32] = 32'h7FFF_0000;
                 end else if ((i - LAST_GUARD_INDEX) % 6 == 0) begin
-                    expected_subcarriers[i] = 1'b1;
+                    expected_subcarriers[i*32 +: 32] = 32'h7FFF_0000;
                 end else if (header) begin
-                    expected_subcarriers[i] = 1'b1;
+                    expected_subcarriers[i*32 +: 32] = 32'h7FFF_0000;
                 end else begin
-                    expected_subcarriers[i] = qpsk_symbol[i];
+                    expected_subcarriers[i*32 +: 32] = qpsk_symbol[i*32 +: 32];
                 end
             end
         end
     endtask
 
-    // Check output task
     task check_output;
         input [8*35:1] test_name;
         begin
@@ -69,18 +65,11 @@ module tb_parameterized_map_to_subcarriers;
             @(posedge clk);
             #1;
 
-            if (subcarriers === {SUBCARRIER_COUNT{1'b0}}) begin
-                $display("[WARNING] %s: Output is entirely zero!", test_name);
-            end
-
             if (subcarriers !== expected_subcarriers) begin
                 $display("[FAIL] %s", test_name);
-                $display("       Expected: %b", expected_subcarriers);
-                $display("       Actual:   %b", subcarriers);
                 error_count = error_count + 1;
             end else begin
                 $display("[PASS] %s", test_name);
-                $display("       Subcarriers: %b", subcarriers);
             end
         end
     endtask
@@ -90,57 +79,42 @@ module tb_parameterized_map_to_subcarriers;
         sync        = 0;
         ref_sym     = 0;
         header      = 0;
-        zc_seq      = {SUBCARRIER_COUNT{1'b1}};
-        qpsk_symbol = {SUBCARRIER_COUNT{1'b1}};
+        zc_seq      = {SUBCARRIER_COUNT{32'h7FFF_0000}};
+        qpsk_symbol = {SUBCARRIER_COUNT{32'h1234_5678}};
 
         #10;
 
-        // -------------------------------------------------------------
-        // Test Case 1: Non-Zero Output via Sync Signal (Zadoff-Chu Sequence)
-        // Active subcarriers (indices 6-31 and 33-57) map to zc_seq values
-        // -------------------------------------------------------------
+        // TC1: Sync - ZC sequence
         sync    = 1;
         ref_sym = 0;
         header  = 0;
-        check_output("TC1: Non-Zero Sync Output");
+        check_output("TC1: Sync Output (ZC Sequence)");
 
-        // -------------------------------------------------------------
-        // Test Case 2: Non-Zero Output via Reference Symbol Mode
-        // Active subcarriers driven high (COMPLEX_ONE = 1'b1)
-        // -------------------------------------------------------------
+        // TC2: Ref Symbol
         sync    = 0;
         ref_sym = 1;
         header  = 0;
-        check_output("TC2: Non-Zero Ref Sym Output");
+        check_output("TC2: Ref Sym Output (All Ones)");
 
-        // -------------------------------------------------------------
-        // Test Case 3: Non-Zero Output via Header Mode
-        // Active subcarriers driven high for header symbol
-        // -------------------------------------------------------------
+        // TC3: Header Symbol
         sync    = 0;
         ref_sym = 0;
         header  = 1;
-        check_output("TC3: Non-Zero Header Output");
+        check_output("TC3: Header Output (All Ones)");
 
-        // -------------------------------------------------------------
-        // Test Case 4: Non-Zero Output via QPSK Data Payload
-        // Standard data pass-through on active subcarrier positions
-        // -------------------------------------------------------------
+        // TC4: QPSK Payload
         sync        = 0;
         ref_sym     = 0;
         header      = 0;
-        qpsk_symbol = 64'hFFFF_FFFF_FFFF_FFFF;
-        check_output("TC4: Non-Zero QPSK Payload Output");
+        qpsk_symbol = {SUBCARRIER_COUNT{32'hABCD_EF01}};
+        check_output("TC4: QPSK Payload Output");
 
-        // -------------------------------------------------------------
-        // Test Case 5: Non-Zero Output via Pilot Subcarriers
-        // Active subcarriers satisfying (i - LAST_GUARD_INDEX) % 6 == 0 drive 1'b1
-        // -------------------------------------------------------------
+        // TC5: Pilot Subcarriers (isolated)
         sync        = 0;
         ref_sym     = 0;
         header      = 0;
-        qpsk_symbol = 64'h0000_0000_0000_0000; // Zero payload to isolate pilots
-        check_output("TC5: Non-Zero Pilot Subcarriers Output");
+        qpsk_symbol = {SUBCARRIER_COUNT{32'h0000_0000}};
+        check_output("TC5: Pilot Subcarriers Output");
 
         #10;
         $display("\n========================================");
