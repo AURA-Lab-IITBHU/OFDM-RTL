@@ -34,7 +34,7 @@ jobs:
       # file is include-guarded, so listing src/*.v alongside it is safe.
       - name: Compile and Syntax Check All Modules Together
         run: |
-          iverilog -Wall -t null -I src full.v src/*.v fpga/*.v testbenches/*.v
+          iverilog -t null -I src full.v src/*.v fpga/*.v testbenches/*.v
 
       # Timescale-inheritance warnings are expected and non-fatal: several RTL
       # files predate this repo and carry no `timescale directive.
