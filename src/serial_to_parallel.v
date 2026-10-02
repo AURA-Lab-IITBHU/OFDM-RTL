@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef SERIAL_TO_PARALLEL_V
+`define SERIAL_TO_PARALLEL_V
+
+
 // Serial-to-parallel: collects N complex samples from stream, outputs in parallel
 // Each complex sample is 32 bits: {re[15:0], im[15:0]}
 module serial_to_parallel #(
@@ -38,3 +42,4 @@ module serial_to_parallel #(
     end
 
 endmodule
+`endif

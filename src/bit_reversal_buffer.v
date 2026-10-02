@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef BIT_REVERSAL_BUFFER_V
+`define BIT_REVERSAL_BUFFER_V
+
+
 // Bit-reversal buffer: takes N samples in bit-reversed order, outputs in natural order
 module bit_reversal_buffer #(
     parameter N = 64,
@@ -71,3 +75,4 @@ module bit_reversal_buffer #(
     assign do_im = buf_im[rd_idx];
 
 endmodule
+`endif

@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef MAP_TO_SUBCARRIERS_V
+`define MAP_TO_SUBCARRIERS_V
+
+
 // Complex map_to_subcarriers: 32-bit per subcarrier (16 re + 16 im)
 // Matches ofdm_hls.cc.cpp map_to_subcarriers() with complex_fixed
 module parameterized_map_to_subcarriers #(
@@ -51,3 +55,4 @@ module parameterized_map_to_subcarriers #(
         end
     end
 endmodule
+`endif

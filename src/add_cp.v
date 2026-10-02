@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef ADD_CP_V
+`define ADD_CP_V
+
+
 // Complex add_cp: cyclic prefix on 32-bit complex symbols
 // Matches ofdm_hls.cc.cpp add_cp() with complex_fixed
 module parameterized_add_cp #(
@@ -28,3 +32,4 @@ module parameterized_add_cp #(
         end
     end
 endmodule
+`endif

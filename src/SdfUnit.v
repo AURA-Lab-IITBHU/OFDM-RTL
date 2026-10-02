@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef SDFUNIT_V
+`define SDFUNIT_V
+
 //----------------------------------------------------------------------
 //  SdfUnit: Radix-2^2 Single-Path Delay Feedback Unit for N-Point FFT
 //----------------------------------------------------------------------
@@ -275,3 +280,4 @@ assign  do_re = (LOG_M == 2) ? bf2_do_re : mu_do_re;
 assign  do_im = (LOG_M == 2) ? bf2_do_im : mu_do_im;
 
 endmodule
+`endif

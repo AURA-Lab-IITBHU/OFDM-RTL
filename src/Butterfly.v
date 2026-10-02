@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef BUTTERFLY_V
+`define BUTTERFLY_V
+
 //----------------------------------------------------------------------
 //  Butterfly: Add/Sub and Scaling
 //----------------------------------------------------------------------
@@ -30,3 +35,4 @@ assign  y1_re = (sub_re + RH) >>> 1;
 assign  y1_im = (sub_im + RH) >>> 1;
 
 endmodule
+`endif

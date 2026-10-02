@@ -6,16 +6,16 @@
 //
 // Complex datapath: 32-bit per subcarrier (16 re + 16 im Q1.15)
 
-`include "zc_seq.v"
-`include "qpsk_signal.v"
-`include "qpsk_signal_128.v"
-`include "qpsk.v"
-`include "map_to_subcarriers.v"
-`include "parallel_to_serial.v"
-`include "ifft_64.v"
-`include "serial_to_parallel.v"
-`include "add_cp.v"
-`include "uart_rx.v"
+`include "src/zc_seq.v"
+`include "src/qpsk_signal.v"
+`include "src/qpsk_signal_128.v"
+`include "src/qpsk.v"
+`include "src/map_to_subcarriers.v"
+`include "src/parallel_to_serial.v"
+`include "src/ifft_64.v"
+`include "src/serial_to_parallel.v"
+`include "src/add_cp.v"
+`include "src/uart_rx.v"
 
 // ---------------------------------------------------------------------------
 // Top level: equivalent to generate_frame() in the C++ reference.
@@ -87,10 +87,15 @@ module ofdm_generate_frame #(
     // --- symbol control --------------------------------------------------
     reg [$clog2(N_SYMBOLS):0] sym_idx;  // extra bit for overflow detection
     reg                       symbol_start;
+    reg                       start_sent;
+    reg                       next_symbol_start;
+    reg                       frame_active;
     wire                      symbol_done;  // s2p_frame_done delayed by add_cp
 
     // --- map_to_subcarriers ----------------------------------------------
-    wire                       map_rst = rst | symbol_start;
+    // Reset with rst only. symbol_start must NOT reset the mapper: it is the
+    // same edge on which p2s reads sample 0, and clearing would zero it.
+    wire                       map_rst = rst;
     wire                       map_sync, map_ref, map_hdr;
     wire [SUBCARRIER_COUNT*32-1:0] subcarriers;
 
@@ -100,9 +105,9 @@ module ofdm_generate_frame #(
 
     parameterized_map_to_subcarriers #(
         .SUBCARRIER_COUNT(SUBCARRIER_COUNT),
-        .GUARD_COUNT     (6),
-        .DC              (32),
-        .LAST_GUARD_INDEX(5),
+        .GUARD_COUNT     (GUARD_COUNT),
+        .DC              (DC_INDEX),
+        .LAST_GUARD_INDEX(GUARD_COUNT - 1),
         .DATA_WIDTH      (16)
     ) u_map (
         .clk         (clk),
@@ -185,70 +190,64 @@ module ofdm_generate_frame #(
     assign symbol_done = s2p_frame_done_d;
 
     // --- add_to_frame / frame control ------------------------------------
-    // Symbol latency: map(1) + p2s(64) + ifft(137) + s2p(64) + add_cp(1) = 267
-    // We advance sym_idx when symbol_done, write frame, then next symbol.
-    
-reg                       frame_active;
-    reg                       symbol_start_q;
-    reg                       next_symbol_start;
+    // Symbol latency: p2s(64) + ifft(71+64) + s2p(64) + add_cp(1) = 264
+    //
+    // Launch timing, relative to the edge (E) that increments sym_idx:
+    //   E   : sym_idx changes; mapper still drives the OLD symbol
+    //   E+1 : mapper registers the NEW symbol into subcarriers
+    //   E+2 : symbol_start is seen by p2s, which reads valid subcarriers
+    // start_sent guarantees symbol 0 is launched exactly once per frame.
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            state            <= IDLE;
-            sym_idx          <= 0;
-            symbol_start     <= 1'b0;
-            symbol_start_q   <= 1'b0;
-            frame_active     <= 1'b0;
-            frame_done       <= 1'b0;
+            state              <= IDLE;
+            sym_idx            <= 0;
+            symbol_start       <= 1'b0;
+            start_sent         <= 1'b0;
+            next_symbol_start  <= 1'b0;
+            frame_active       <= 1'b0;
+            frame_done         <= 1'b0;
         end else begin
             symbol_start <= 1'b0;
-            // frame_done only cleared when not completing a frame
 
             case (state)
                 IDLE: begin
                     if (!frame_active) begin
                         frame_active <= 1'b1;
                         sym_idx      <= 0;
-                        state        <= RUN;
+                        start_sent   <= 1'b0;
                         frame_done   <= 1'b0;
+                        state        <= RUN;
                     end
                 end
 
                 RUN: begin
-                    // Schedule next symbol start one cycle after symbol_done
-                    if (symbol_done && sym_idx < N_SYMBOLS - 1) begin
-                        next_symbol_start <= 1'b1;
-                    end
-                    
-                    // Apply delayed start pulse (aligns with new subcarriers data)
-                    if (next_symbol_start) begin
+                    // First symbol: one pulse only
+                    if (!start_sent) begin
                         symbol_start <= 1'b1;
+                        start_sent   <= 1'b1;
+                    end else if (next_symbol_start) begin
+                        symbol_start      <= 1'b1;
                         next_symbol_start <= 1'b0;
                     end
-                    
-                    // First symbol start pulse
-                    if (!symbol_start && !symbol_start_q && sym_idx == 0) begin
-                        symbol_start <= 1'b1;
-                    end
-                    
+
                     if (symbol_done) begin
-                        // Write frame slot for completed symbol
+                        // add_cp registered ofdm_symbol_cp on this same edge,
+                        // so the slot is safe to write now.
                         ofdm_frame[sym_idx*SYMBOL_LEN*32 +: SYMBOL_LEN*32] <= ofdm_symbol_cp;
                         sym_idx <= sym_idx + 1;
-                        
+
                         if (sym_idx == N_SYMBOLS - 1) begin
-                            // Frame complete
                             state        <= IDLE;
                             frame_active <= 1'b0;
                             frame_done   <= 1'b1;
+                        end else begin
+                            next_symbol_start <= 1'b1;
                         end
                     end
-                    
-                    // Generate single-cycle start pulse
-                    symbol_start_q <= symbol_start;
-                    if (symbol_start)
-                        symbol_start <= 1'b0;
                 end
+
+                default: state <= IDLE;
             endcase
         end
     end

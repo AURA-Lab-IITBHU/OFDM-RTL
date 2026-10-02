@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef ZC_SEQ_V
+`define ZC_SEQ_V
+
 module  zc_sequence_generator 
 ( output wire [DATA_WIDTH-1:0] zc_seq_re[0:SUB_COUNT -1] ,
   output wire [DATA_WIDTH-1:0] zc_seq_im[0:SUB_COUNT-1] );
@@ -165,3 +170,4 @@ genvar i;
 endmodule
 				         
      
+`endif

@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef MULTIPLY_V
+`define MULTIPLY_V
+
 //----------------------------------------------------------------------
 //  Multiply: Complex Multiplier
 //----------------------------------------------------------------------
@@ -33,3 +38,4 @@ assign  m_re = sc_arbr - sc_aibi;
 assign  m_im = sc_arbi + sc_aibr;
 
 endmodule
+`endif
