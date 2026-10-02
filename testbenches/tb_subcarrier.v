@@ -24,8 +24,7 @@ module tb_parameterized_map_to_subcarriers;
         .SUBCARRIER_COUNT(SUBCARRIER_COUNT),
         .GUARD_COUNT(GUARD_COUNT),
         .DC(DC),
-        .LAST_GUARD_INDEX(LAST_GUARD_INDEX),
-        .DATA_WIDTH(DATA_WIDTH)
+        .LAST_GUARD_INDEX(LAST_GUARD_INDEX)
     ) dut (
         .clk(clk),
         .sync(sync),

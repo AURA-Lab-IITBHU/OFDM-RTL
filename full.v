@@ -23,6 +23,10 @@
 // Pipeline latency ~267 cycles per symbol. Symbols are processed
 // sequentially within a frame.
 // ---------------------------------------------------------------------------
+/* verilator lint_off DECLFILENAME */
+/* Module name intentionally differs from the filename: the filename is the
+   stage name used by the documented build commands, the module name is the
+   historical one. See AGENTS.md. */
 module ofdm_generate_frame #(
     parameter SUBCARRIER_COUNT = 64,
     parameter GUARD_COUNT      = 10,
@@ -30,8 +34,7 @@ module ofdm_generate_frame #(
     parameter DATA_WIDTH       = 16,
     parameter N_SYMBOLS        = 4,
     parameter SYMBOL_LEN       = 80,
-    parameter CP_LENGTH        = 16,
-    parameter COMPLEX_WIDTH    = 32
+    parameter CP_LENGTH        = 16
 )(
     input  wire                              clk,
     input  wire                              rst,
@@ -40,7 +43,7 @@ module ofdm_generate_frame #(
     output reg                               frame_done
 );
 
-    localparam IDLE = 2'b00, RUN = 2'b01, WAIT = 2'b10;
+    localparam IDLE = 2'b00, RUN = 2'b01;
     reg [1:0] state;
 
     // --- generate_zc_sequence -------------------------------------------
@@ -111,8 +114,7 @@ module ofdm_generate_frame #(
         .SUBCARRIER_COUNT(SUBCARRIER_COUNT),
         .GUARD_COUNT     (GUARD_COUNT),
         .DC              (DC_INDEX),
-        .LAST_GUARD_INDEX(GUARD_COUNT - 1),
-        .DATA_WIDTH      (16)
+        .LAST_GUARD_INDEX(GUARD_COUNT - 1)
     ) u_map (
         .clk         (clk),
         .rst         (map_rst),
@@ -128,7 +130,9 @@ module ofdm_generate_frame #(
     wire                          p2s_do_en;
     wire [15:0]                   p2s_do_re;
     wire [15:0]                   p2s_do_im;
+    /* verilator lint_off UNUSEDSIGNAL */
     wire                          p2s_frame_done;
+    /* verilator lint_on UNUSEDSIGNAL */
 
     parallel_to_serial #(.N(SUBCARRIER_COUNT), .WIDTH(16)) u_p2s (
         .clk           (clk),
@@ -138,6 +142,11 @@ module ofdm_generate_frame #(
         .do_en         (p2s_do_en),
         .do_re         (p2s_do_re),
         .do_im         (p2s_do_im),
+        // frame_done is driven but intentionally unread: the frame FSM advances
+        // on symbol_done (from s2p, downstream of add_cp) and restarts p2s with
+        // symbol_start, so there is nothing left for p2s to report. It is kept
+        // wired because parallel_to_serial is a reusable block and dropping an
+        // output would shrink its interface for no functional gain.
         .frame_done    (p2s_frame_done)
     );
 

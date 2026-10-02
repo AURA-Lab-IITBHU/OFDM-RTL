@@ -11,6 +11,10 @@
 // and will not elaborate in Vivado, which parses .v as Verilog-2001.
 //
 // LUT_SIZE is the C++ LUT entry count: 64 - 2*10 - 1 = 43.
+/* verilator lint_off DECLFILENAME */
+/* Module name intentionally differs from the filename: the filename is the
+   stage name used by the documented build commands, the module name is the
+   historical one. See AGENTS.md. */
 module zc_sequence_generator
 #(
   parameter SUB_COUNT = 64 ,
@@ -165,13 +169,13 @@ genvar i;
 	for ( i=0 ; i < SUB_COUNT ; i =i+1) begin : zc_seq_mapper 
 	
 		if ( ( i < GUARD_COUNT) || (i == DC_INDEX) || (i > SUB_COUNT - GUARD_COUNT-1) )
-			begin
+			begin : guard_zero
 				assign zc_seq_re [((i+1)*DATA_WIDTH)-1:(i*DATA_WIDTH)] = 16'h0000 ;
 				assign zc_seq_im [((i+1)*DATA_WIDTH)-1:(i*DATA_WIDTH)] = 16'h0000 ;
 			end
 			
 		else
-			begin
+			begin : lut_lookup
 				assign zc_seq_re [((i+1)*DATA_WIDTH)-1:(i*DATA_WIDTH)] = zc_lut_re [((i - GUARD_COUNT - (( i> DC_INDEX)?1:0))+1)*DATA_WIDTH-1:(i - GUARD_COUNT - (( i> DC_INDEX)?1:0))*DATA_WIDTH] ;
 				assign zc_seq_im [((i+1)*DATA_WIDTH)-1:(i*DATA_WIDTH)] = zc_lut_im [((i - GUARD_COUNT - (( i> DC_INDEX)?1:0))+1)*DATA_WIDTH-1:(i - GUARD_COUNT - (( i> DC_INDEX)?1:0))*DATA_WIDTH] ;
 			end

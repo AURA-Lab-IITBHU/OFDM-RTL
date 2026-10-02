@@ -6,6 +6,12 @@
 //----------------------------------------------------------------------
 //  FFT: 64-Point FFT Using Radix-2^2 Single-Path Delay Feedback
 //----------------------------------------------------------------------
+//----------------------------------------------------------------
+// Vendored from r22sdf-master. Lint waiver below is the only local
+// edit: the module name predates this repo filename convention.
+// Re-vendoring replaces this file wholesale.
+//----------------------------------------------------------------
+/* verilator lint_off DECLFILENAME */
 module FFT #(
     parameter   WIDTH = 16
 )(
