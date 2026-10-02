@@ -20,6 +20,9 @@ module serial_to_parallel #(
 );
 
     localparam LOGN = $clog2(N);
+
+    // Width-matched so the wrap test does not zero-extend a 32-bit literal.
+    localparam [LOGN-1:0] LAST_N = N[LOGN-1:0] - 1'b1;
     reg [LOGN-1:0] idx;
 
     always @(posedge clk or posedge rst) begin
@@ -33,7 +36,7 @@ module serial_to_parallel #(
                 parallel_data[(idx*32 + 16) +: 16] <= di_re;
                 parallel_data[(idx*32) +: 16] <= di_im;
                 idx <= idx + 1;
-                if (idx == N-1) begin
+                if (idx == LAST_N) begin
                     idx        <= 0;
                     frame_done <= 1'b1;
                 end

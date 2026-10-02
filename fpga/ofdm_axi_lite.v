@@ -33,6 +33,13 @@ module ofdm_axi_lite #(
     input  wire                 s_axi_aresetn,
 
     (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME s_axi, WIDTH 32, PROTOCOL AXI4LITE, HAS_BRESP, SUPPORTS_NARROW_BURST 0, FREQ_HZ 50000000, HAS_WSTRB, WSTRB_WIDTH 4, INSERT_VIP 0" *)
+    // Three inputs are intentionally unread:
+    //   s_axi_awaddr[1:0] / s_axi_araddr[1:0] -- AXI addresses are byte
+    //     addresses, but this slave only performs 32-bit word accesses, so the
+    //     byte lane carries no information.
+    //   s_axi_wstrb -- writes are always full 32-bit words via Xil_Out32.
+    // Use 32-bit Xil_Out32 / Xil_In32 in software.
+    /* verilator lint_off UNUSEDSIGNAL */
     input  wire [ADDR_W-1:0]    s_axi_awaddr,
     input  wire                 s_axi_awvalid,
     output reg                  s_axi_awready,
@@ -46,6 +53,7 @@ module ofdm_axi_lite #(
 
     (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME s_axi, WIDTH 32, PROTOCOL AXI4LITE, HAS_BRESP, SUPPORTS_NARROW_BURST 0, FREQ_HZ 50000000, HAS_WSTRB, WSTRB_WIDTH 4, INSERT_VIP 0" *)
     input  wire [ADDR_W-1:0]    s_axi_araddr,
+    /* verilator lint_on UNUSEDSIGNAL */
     input  wire                 s_axi_arvalid,
     output reg                  s_axi_arready,
     output reg  [31:0]          s_axi_rdata,
