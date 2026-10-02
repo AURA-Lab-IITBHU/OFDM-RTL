@@ -65,11 +65,13 @@ module bit_reversal_buffer #(
     function [LOGN-1:0] bit_reverse(input [LOGN-1:0] val);
         integer i;
         reg [LOGN-1:0] rev;
+        reg [LOGN-1:0] v;
         begin
             rev = 0;
+            v = val;
             for (i = 0; i < LOGN; i = i + 1) begin
-                rev[LOGN-1-i] = val[0];
-                val = val >> 1;
+                rev[LOGN-1-i] = v[0];
+                v = v >> 1;
             end
             bit_reverse = rev;
         end
