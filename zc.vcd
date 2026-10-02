@@ -1,0 +1,426 @@
+$date
+	Fri Oct  2 10:02:19 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module tb_zc_seq $end
+$var parameter 32 ! DATA_WIDTH $end
+$var parameter 32 " DC_INDEX $end
+$var parameter 32 # GUARD_COUNT $end
+$var parameter 32 $ SUB_COUNT $end
+$var integer 32 % error [31:0] $end
+$var integer 32 & i [31:0] $end
+$scope module dut_zc_seq $end
+$var parameter 32 ' DATA_WIDTH $end
+$var parameter 32 ( DC_INDEX $end
+$var parameter 32 ) GUARD_COUNT $end
+$var parameter 32 * SUB_COUNT $end
+$scope begin zc_seq_mapper[0] $end
+$var parameter 2 + i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[1] $end
+$var parameter 2 , i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[2] $end
+$var parameter 3 - i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[3] $end
+$var parameter 3 . i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[4] $end
+$var parameter 4 / i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[5] $end
+$var parameter 4 0 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[6] $end
+$var parameter 4 1 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[7] $end
+$var parameter 4 2 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[8] $end
+$var parameter 5 3 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[9] $end
+$var parameter 5 4 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[10] $end
+$var parameter 5 5 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[11] $end
+$var parameter 5 6 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[12] $end
+$var parameter 5 7 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[13] $end
+$var parameter 5 8 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[14] $end
+$var parameter 5 9 i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[15] $end
+$var parameter 5 : i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[16] $end
+$var parameter 6 ; i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[17] $end
+$var parameter 6 < i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[18] $end
+$var parameter 6 = i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[19] $end
+$var parameter 6 > i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[20] $end
+$var parameter 6 ? i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[21] $end
+$var parameter 6 @ i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[22] $end
+$var parameter 6 A i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[23] $end
+$var parameter 6 B i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[24] $end
+$var parameter 6 C i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[25] $end
+$var parameter 6 D i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[26] $end
+$var parameter 6 E i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[27] $end
+$var parameter 6 F i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[28] $end
+$var parameter 6 G i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[29] $end
+$var parameter 6 H i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[30] $end
+$var parameter 6 I i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[31] $end
+$var parameter 6 J i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[32] $end
+$var parameter 7 K i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[33] $end
+$var parameter 7 L i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[34] $end
+$var parameter 7 M i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[35] $end
+$var parameter 7 N i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[36] $end
+$var parameter 7 O i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[37] $end
+$var parameter 7 P i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[38] $end
+$var parameter 7 Q i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[39] $end
+$var parameter 7 R i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[40] $end
+$var parameter 7 S i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[41] $end
+$var parameter 7 T i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[42] $end
+$var parameter 7 U i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[43] $end
+$var parameter 7 V i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[44] $end
+$var parameter 7 W i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[45] $end
+$var parameter 7 X i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[46] $end
+$var parameter 7 Y i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[47] $end
+$var parameter 7 Z i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[48] $end
+$var parameter 7 [ i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[49] $end
+$var parameter 7 \ i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[50] $end
+$var parameter 7 ] i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[51] $end
+$var parameter 7 ^ i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[52] $end
+$var parameter 7 _ i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[53] $end
+$var parameter 7 ` i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[54] $end
+$var parameter 7 a i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[55] $end
+$var parameter 7 b i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[56] $end
+$var parameter 7 c i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[57] $end
+$var parameter 7 d i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[58] $end
+$var parameter 7 e i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[59] $end
+$var parameter 7 f i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[60] $end
+$var parameter 7 g i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[61] $end
+$var parameter 7 h i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[62] $end
+$var parameter 7 i i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$scope begin zc_seq_mapper[63] $end
+$var parameter 7 j i $end
+$scope begin genblk1 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b111111 j
+b111110 i
+b111101 h
+b111100 g
+b111011 f
+b111010 e
+b111001 d
+b111000 c
+b110111 b
+b110110 a
+b110101 `
+b110100 _
+b110011 ^
+b110010 ]
+b110001 \
+b110000 [
+b101111 Z
+b101110 Y
+b101101 X
+b101100 W
+b101011 V
+b101010 U
+b101001 T
+b101000 S
+b100111 R
+b100110 Q
+b100101 P
+b100100 O
+b100011 N
+b100010 M
+b100001 L
+b100000 K
+b11111 J
+b11110 I
+b11101 H
+b11100 G
+b11011 F
+b11010 E
+b11001 D
+b11000 C
+b10111 B
+b10110 A
+b10101 @
+b10100 ?
+b10011 >
+b10010 =
+b10001 <
+b10000 ;
+b1111 :
+b1110 9
+b1101 8
+b1100 7
+b1011 6
+b1010 5
+b1001 4
+b1000 3
+b111 2
+b110 1
+b101 0
+b100 /
+b11 .
+b10 -
+b1 ,
+b0 +
+b1000000 *
+b1010 )
+b100000 (
+b10000 '
+b1000000 $
+b1010 #
+b100000 "
+b10000 !
+$end
+#0
+$dumpvars
+bx &
+b0 %
+$end
+#150
+b1000000 &

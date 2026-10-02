@@ -2,21 +2,18 @@
 
 module tb_parameterized_add_cp;
 
-    // Parameters where symbol_len equals subcarrier_count
     parameter SUBCARRIER_COUNT = 64;
     parameter CP_LENGTH        = 16;
-    parameter SYMBOL_LEN       = 64; // Same as subcarrier_count
+    parameter SYMBOL_LEN       = 80;
 
-    // DUT Inputs & Outputs
     reg clk;
-    reg [SUBCARRIER_COUNT-1:0] ofdm_symbol;
-    wire [SYMBOL_LEN-1:0] ofdm_symbol_cp;
+    reg [SUBCARRIER_COUNT*32-1:0] ofdm_symbol;
+    wire [SYMBOL_LEN*32-1:0] ofdm_symbol_cp;
 
-    // Testbench Variables
-    reg [SYMBOL_LEN-1:0] expected_ofdm_symbol_cp;
+    reg [SYMBOL_LEN*32-1:0] expected_ofdm_symbol_cp;
     integer error_count = 0;
+    integer j;
 
-    // Instantiate DUT
     parameterized_add_cp #(
         .SYMBOL_LEN(SYMBOL_LEN),
         .SUBCARRIER_COUNT(SUBCARRIER_COUNT),
@@ -27,20 +24,18 @@ module tb_parameterized_add_cp;
         .ofdm_symbol_cp(ofdm_symbol_cp)
     );
 
-    // Clock Generation (10ns period)
     always #5 clk = ~clk;
 
-    // Golden Reference Model matching the exact RTL concatenation
     task compute_expected;
         begin
-            expected_ofdm_symbol_cp = {
-                ofdm_symbol[SUBCARRIER_COUNT-1 : SUBCARRIER_COUNT-CP_LENGTH], 
-                ofdm_symbol[SUBCARRIER_COUNT-CP_LENGTH-1 : 0]
-            };
+            expected_ofdm_symbol_cp = {SYMBOL_LEN*32{1'b0}};
+            for (j = 0; j < CP_LENGTH; j = j + 1)
+                expected_ofdm_symbol_cp[j*32 +: 32] = ofdm_symbol[(SUBCARRIER_COUNT - CP_LENGTH + j)*32 +: 32];
+            for (j = CP_LENGTH; j < SYMBOL_LEN; j = j + 1)
+                expected_ofdm_symbol_cp[j*32 +: 32] = ofdm_symbol[(j - CP_LENGTH)*32 +: 32];
         end
     endtask
 
-    // Output Checking Task
     task check_output;
         input [8*35:1] test_name;
         begin
@@ -50,34 +45,33 @@ module tb_parameterized_add_cp;
 
             if (ofdm_symbol_cp !== expected_ofdm_symbol_cp) begin
                 $display("[FAIL] %s", test_name);
-                $display("       Input Symbol : 64'h%h", ofdm_symbol);
-                $display("       Expected     : 64'h%h", expected_ofdm_symbol_cp);
-                $display("       Actual       : 64'h%h", ofdm_symbol_cp);
+                $display("       Input Symbol  : %0d'h%h", SUBCARRIER_COUNT*32, ofdm_symbol);
+                $display("       Expected CP   : %0d'h%h", SYMBOL_LEN*32, expected_ofdm_symbol_cp);
+                $display("       Actual CP     : %0d'h%h", SYMBOL_LEN*32, ofdm_symbol_cp);
                 error_count = error_count + 1;
             end else begin
                 $display("[PASS] %s", test_name);
-                $display("       Input Symbol : 64'h%h", ofdm_symbol);
-                $display("       Output CP    : 64'h%h", ofdm_symbol_cp);
+                $display("       Input Symbol  : %0d'h%h", SUBCARRIER_COUNT*32, ofdm_symbol);
+                $display("       Output CP     : %0d'h%h", SYMBOL_LEN*32, ofdm_symbol_cp);
             end
         end
     endtask
 
-    // Test Sequence
     initial begin
         clk = 0;
-        ofdm_symbol = 64'd0;
+        ofdm_symbol = {SUBCARRIER_COUNT{32'h0000_0000}};
         #10;
 
         // Test Case 1: All Ones
-        ofdm_symbol = 64'hFFFF_FFFF_FFFF_FFFF;
+        ofdm_symbol = {SUBCARRIER_COUNT{32'h7FFF_7FFF}};
         check_output("Test Case 1: All Ones");
 
-        // Test Case 2: Marker Test (0xDEAD prepends, LSB bits truncated)
-        ofdm_symbol = 64'hDEAD_BEEF_1234_5678;
-        check_output("Test Case 2: Truncated CP Output");
+        // Test Case 2: Marker test - CP is top CP_LENGTH samples prepended
+        ofdm_symbol = {64{32'hDEAD_BEEF}};
+        check_output("Test Case 2: CP Prepend");
 
         // Test Case 3: Alternating Pattern
-        ofdm_symbol = 64'hAAAA_AAAA_AAAA_AAAA;
+        ofdm_symbol = {64{32'hAAAA_AAAA}};
         check_output("Test Case 3: Alternating Bits");
 
         #10;
