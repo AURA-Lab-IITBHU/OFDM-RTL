@@ -6,3 +6,4 @@ AGENTS.md
 *.vcd
 *.vvp
 a.out
+*.bin
