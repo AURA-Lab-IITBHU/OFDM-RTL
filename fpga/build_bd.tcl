@@ -169,16 +169,33 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
 # First pass creates the segments so there is something to pin.
 assign_bd_address
 
-set gp_space [get_bd_addr_spaces processing_system7_0/Data]
+# Dump everything first. Which segments exist depends on what automation added,
+# and the BD address segment object model is not worth guessing at: asking for
+# get_bd_addr_spaces processing_system7_0/Data after the axi4 rule ran resolved
+# to /rst_ps7_0_50M (the proc_sys_reset cell) rather than the PS7, so the
+# -of_objects lookup silently found nothing.
+puts "=== address spaces ==="
+foreach a [get_bd_addr_spaces] {
+  puts "  SPACE [get_property NAME $a]"
+}
+puts "=== address segments ==="
+foreach s [get_bd_addr_segs] {
+  puts "  SEG [get_property NAME $s] offset=[get_property offset $s] range=[get_property range $s]"
+}
 
 # Pin the PS7 MASTER window (M_AXI_GP0), not the slave segment. The master
 # segment defines what the PS can actually reach: automation had left M_AXI_GP0
 # at 0x4000_0000, so moving only the slave to 0x43C00000 produces a design that
 # validates and implements cleanly but where software at 0x43C00000 reaches
 # nothing. Pin the master, then let assign_bd_address place the slave inside it.
-set gp_seg [get_bd_addr_segs -of_objects $gp_space -filter {NAME =~ "*M_AXI_GP0*"}]
+#
+# Search by name across all address spaces rather than -of_objects a space object.
+set gp_seg [get_bd_addr_segs -quiet -filter {NAME =~ "*/M_AXI_GP0*"}]
 if {[llength $gp_seg] == 0} {
-  error "PS7 M_AXI_GP0 address segment not found; PCW_USE_M_AXI_GP0 may be off."
+  error "PS7 M_AXI_GP0 address segment not found; PCW_USE_M_AXI_GP0 may be off (see the segment dump above)."
+}
+if {[llength $gp_seg] > 1} {
+  puts "WARNING: [llength $gp_seg] M_AXI_GP0 segments; using [lindex $gp_seg 0]"
 }
 set gp_seg [lindex $gp_seg 0]
 if {[catch {
@@ -191,19 +208,21 @@ if {[catch {
 # Second pass: with the master window pinned, the slave lands inside it.
 assign_bd_address
 
-set seg [get_bd_addr_segs -of_objects $gp_space -filter {NAME =~ "*ofdm_axi_lite_0*"}]
+set seg [get_bd_addr_segs -quiet -filter {NAME =~ "*ofdm_axi_lite_0*"}]
 if {[llength $seg] > 0} {
   set seg [lindex $seg 0]
   set actual [get_property offset $seg]
   puts ""
   puts "############################################################"
   puts "#  OFDM_BASE = $actual"
-  puts "#  range      = [get_property range $seg]"
+  puts "#  segment   = [get_property NAME $seg]"
+  puts "#  range     = [get_property range $seg]"
+  puts "#  master    = [get_property NAME $gp_seg] offset=[get_property offset $gp_seg] range=[get_property range $gp_seg]"
   puts "#  Set this in fpga/main.c (currently 0x43C00000U)."
   puts "############################################################"
   puts ""
 } else {
-  puts "WARNING: ofdm_axi_lite address segment not found; check Address Editor"
+  puts "WARNING: ofdm_axi_lite address segment not found; check the segment dump above"
 }
 
 # report_bd_address does not exist in Vivado 2025.1, so dump the segments
