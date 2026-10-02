@@ -50,15 +50,21 @@ module ifft_64 #(
     wire [WIDTH-1:0] conj_re = fft_do_re;
     wire [WIDTH-1:0] conj_im = -fft_do_im;
 
-    bit_reversal_buffer #(.N(64), .WIDTH(WIDTH)) u_br (
-        .clk   (clk),
-        .rst   (rst),
-        .di_en (fft_do_en),
-        .di_re (conj_re),
-        .di_im (conj_im),
-        .do_en (do_en),
-        .do_re (do_re),
-        .do_im (do_im)
+    // Sticky: latches high if more frames arrive than the buffer's bank count can
+    // hold, meaning samples were dropped. Not propagated up to keep this module's
+    // port list unchanged; observe at u_br.overflow.
+    wire br_overflow;
+
+    bit_reversal_buffer #(.N(64), .WIDTH(WIDTH), .BANKS(4)) u_br (
+        .clk      (clk),
+        .rst      (rst),
+        .di_en    (fft_do_en),
+        .di_re    (conj_re),
+        .di_im    (conj_im),
+        .do_en    (do_en),
+        .do_re    (do_re),
+        .do_im    (do_im),
+        .overflow (br_overflow)
     );
 
 endmodule

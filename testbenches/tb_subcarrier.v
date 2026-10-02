@@ -3,9 +3,9 @@
 module tb_parameterized_map_to_subcarriers;
 
     parameter SUBCARRIER_COUNT = 64;
-    parameter GUARD_COUNT      = 6;
+    parameter GUARD_COUNT      = 10;
     parameter DC               = 32;
-    parameter LAST_GUARD_INDEX = 5;
+    parameter LAST_GUARD_INDEX = 9;
     parameter DATA_WIDTH       = 16;
 
     reg clk;
