@@ -110,29 +110,54 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
   [get_bd_intf_pins ofdm_axi_lite_0/s_axi]
 
 # ---------------------------------------------------------------- addresses ---
+# First pass creates the segments so there is something to pin.
 assign_bd_address
 
 set gp_space [get_bd_addr_spaces processing_system7_0/Data]
+
+# Pin the PS7 MASTER window (M_AXI_GP0), not the slave segment. The master
+# segment defines what the PS can actually reach: automation had left M_AXI_GP0
+# at 0x4000_0000, so moving only the slave to 0x43C00000 produces a design that
+# validates and implements cleanly but where software at 0x43C00000 reaches
+# nothing. Pin the master, then let assign_bd_address place the slave inside it.
+set gp_seg [get_bd_addr_segs -of_objects $gp_space -filter {NAME =~ "*M_AXI_GP0*"}]
+if {[llength $gp_seg] == 0} {
+  error "PS7 M_AXI_GP0 address segment not found; PCW_USE_M_AXI_GP0 may be off."
+}
+set gp_seg [lindex $gp_seg 0]
+if {[catch {
+  set_property range  4K        $gp_seg
+  set_property offset $gp_base  $gp_seg
+} msg]} {
+  puts "WARNING: could not pin M_AXI_GP0 to $gp_base ($msg); using assigned value"
+}
+
+# Second pass: with the master window pinned, the slave lands inside it.
+assign_bd_address
+
 set seg [get_bd_addr_segs -of_objects $gp_space -filter {NAME =~ "*ofdm_axi_lite_0*"}]
 if {[llength $seg] > 0} {
   set seg [lindex $seg 0]
-  if {[catch {
-    set_property range  4K        $seg
-    set_property offset $gp_base  $seg
-  } msg]} {
-    puts "WARNING: could not pin address to $gp_base ($msg); using assigned value"
-  }
   set actual [get_property offset $seg]
   puts ""
   puts "############################################################"
   puts "#  OFDM_BASE = $actual"
+  puts "#  range      = [get_property range $seg]"
   puts "#  Set this in fpga/main.c (currently 0x43C00000U)."
   puts "############################################################"
   puts ""
 } else {
   puts "WARNING: ofdm_axi_lite address segment not found; check Address Editor"
 }
-report_bd_address 
+
+# report_bd_address does not exist in Vivado 2025.1, so dump the segments
+# directly. This is also the check that the slave really sits inside the pinned
+# master window -- if the two OFDM_BASE/SEG lines disagree, software cannot
+# reach the peripheral even though the design validated.
+puts "=== address segments in /processing_system7_0/Data ==="
+foreach s [get_bd_addr_segs -of_objects $gp_space] {
+  puts "SEG [get_property NAME $s] offset=[get_property offset $s] range=[get_property range $s]"
+} 
 
 validate_bd_design
 save_bd_design
