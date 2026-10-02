@@ -37,16 +37,14 @@ puts "FCLK_CLK0: $fclk_mhz MHz"
 
 # ---------------------------------------------------------------- project ----
 # Board Manager (GUI) installs board files into the per-user Vivado Store
-# (%APPDATA%\Xilinx\Vivado\<ver>\xhubStore_<uuid>\data\boards), not into the
-# Vivado installation tree, and batch mode does not scan that location on its
-# own -- which is why get_board_parts came back empty. Point board.repoPaths at
-# every store we can find. The store directory name carries a UUID that is
-# specific to each installation, so glob for it rather than hardcoding.
+# (%APPDATA%\Xilinx\Vivado\<ver>\xhub\board_store\...), not into the Vivado
+# installation tree, and batch mode does not scan that location on its own --
+# which is why get_board_parts came back empty. Point board.repoPaths at every
+# store we can find, globbing for the directory names rather than hardcoding.
 #
 # Note this is a *discovery* fix, not an install fix: it makes board files that
 # Board Manager has already downloaded visible to batch mode. If you have never
-# run Tools -> Board Manager, there is nothing here to find and this finds
-# nothing.
+# run Tools -> Board Manager, there is nothing here to find.
 set appdata      [file normalize $::env(APPDATA)]
 set store_parent [file join $appdata "Xilinx" "Vivado"]
 set vivado_ver   [version -short]
@@ -114,7 +112,7 @@ if {[llength $zb] > 0} {
 
 # ---------------------------------------------------------------- sources ----
 # full.v is an `include aggregator for src/. Both the repo root and src/ are
-# include dirs so `include "src/..." and the bare `include "./FFT64.v" inside
+# include dirs so `include "src/..." and the bare `include "FFT64.v" inside
 # src/ifft_64.v both resolve.
 add_files -norecurse [file join $repo_root full.v]
 add_files -norecurse [file join $repo_root fpga ofdm_axi_lite.v]
@@ -166,73 +164,49 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
   [get_bd_intf_pins ofdm_axi_lite_0/s_axi]
 
 # ---------------------------------------------------------------- addresses ---
-# First pass creates the segments so there is something to pin.
+# Zynq-7000 GP0 is hardwired to 0x4000_0000-0x7FFF_FFFF in silicon and Vivado
+# does not expose the GP master aperture as a movable segment -- there is
+# nothing to pin on the master side, and 0x43C00000 sits inside GP0 regardless
+# of what assign_bd_address chose. So pin the SLAVE segment directly in the PS7
+# Data space.
 assign_bd_address
 
-# Dump everything first. Which segments exist depends on what automation added,
-# and the BD address segment object model is not worth guessing at: asking for
-# get_bd_addr_spaces processing_system7_0/Data after the axi4 rule ran resolved
-# to /rst_ps7_0_50M (the proc_sys_reset cell) rather than the PS7, so the
-# -of_objects lookup silently found nothing.
-puts "=== address spaces ==="
-foreach a [get_bd_addr_spaces] {
-  puts "  SPACE [get_property NAME $a]"
-}
-puts "=== address segments ==="
-foreach s [get_bd_addr_segs] {
-  puts "  SEG [get_property NAME $s] offset=[get_property offset $s] range=[get_property range $s]"
+set gp_space [get_bd_addr_spaces processing_system7_0/Data]
+set seg [get_bd_addr_segs -of_objects $gp_space -filter {NAME =~ "*ofdm_axi_lite*"}]
+
+if {[llength $seg] == 0} {
+  puts "=== address segments present (diagnostic) ==="
+  foreach s [get_bd_addr_segs] {
+    puts "  SEG [get_property NAME $s] offset=[get_property offset $s] range=[get_property range $s]"
+  }
+  error "ofdm_axi_lite address segment not found."
 }
 
-# Pin the PS7 MASTER window (M_AXI_GP0), not the slave segment. The master
-# segment defines what the PS can actually reach: automation had left M_AXI_GP0
-# at 0x4000_0000, so moving only the slave to 0x43C00000 produces a design that
-# validates and implements cleanly but where software at 0x43C00000 reaches
-# nothing. Pin the master, then let assign_bd_address place the slave inside it.
-#
-# Search by name across all address spaces rather than -of_objects a space object.
-set gp_seg [get_bd_addr_segs -quiet -filter {NAME =~ "*/M_AXI_GP0*"}]
-if {[llength $gp_seg] == 0} {
-  error "PS7 M_AXI_GP0 address segment not found; PCW_USE_M_AXI_GP0 may be off (see the segment dump above)."
-}
-if {[llength $gp_seg] > 1} {
-  puts "WARNING: [llength $gp_seg] M_AXI_GP0 segments; using [lindex $gp_seg 0]"
-}
-set gp_seg [lindex $gp_seg 0]
+set target_seg [lindex $seg 0]
+
+# Shrink the range before moving the offset, so an intermediate wide range can
+# never transiently overlap another segment.
 if {[catch {
-  set_property range  4K        $gp_seg
-  set_property offset $gp_base  $gp_seg
+  set_property range  4K       $target_seg
+  set_property offset $gp_base $target_seg
 } msg]} {
-  puts "WARNING: could not pin M_AXI_GP0 to $gp_base ($msg); using assigned value"
+  puts "WARNING: could not pin ofdm_axi_lite to $gp_base ($msg); using assigned value"
 }
 
-# Second pass: with the master window pinned, the slave lands inside it.
-assign_bd_address
+set actual [get_property offset $target_seg]
+puts ""
+puts "############################################################"
+puts "#  OFDM_BASE = $actual"
+puts "#  segment   = [get_property NAME $target_seg]"
+puts "#  range     = [get_property range $target_seg]"
+puts "#  Set this in fpga/main.c (currently 0x43C00000U)."
+puts "############################################################"
+puts ""
 
-set seg [get_bd_addr_segs -quiet -filter {NAME =~ "*ofdm_axi_lite_0*"}]
-if {[llength $seg] > 0} {
-  set seg [lindex $seg 0]
-  set actual [get_property offset $seg]
-  puts ""
-  puts "############################################################"
-  puts "#  OFDM_BASE = $actual"
-  puts "#  segment   = [get_property NAME $seg]"
-  puts "#  range     = [get_property range $seg]"
-  puts "#  master    = [get_property NAME $gp_seg] offset=[get_property offset $gp_seg] range=[get_property range $gp_seg]"
-  puts "#  Set this in fpga/main.c (currently 0x43C00000U)."
-  puts "############################################################"
-  puts ""
-} else {
-  puts "WARNING: ofdm_axi_lite address segment not found; check the segment dump above"
-}
-
-# report_bd_address does not exist in Vivado 2025.1, so dump the segments
-# directly. This is also the check that the slave really sits inside the pinned
-# master window -- if the two OFDM_BASE/SEG lines disagree, software cannot
-# reach the peripheral even though the design validated.
 puts "=== address segments in /processing_system7_0/Data ==="
 foreach s [get_bd_addr_segs -of_objects $gp_space] {
   puts "SEG [get_property NAME $s] offset=[get_property offset $s] range=[get_property range $s]"
-} 
+}
 
 validate_bd_design
 save_bd_design
