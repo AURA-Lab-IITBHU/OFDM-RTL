@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef TWIDDLE64_V
+`define TWIDDLE64_V
+
 //----------------------------------------------------------------------
 //  Twiddle: 64-Point Twiddle Table for Radix-2^2 Butterfly
 //----------------------------------------------------------------------
@@ -102,3 +107,4 @@ assign  wn_re[62] = 16'hxxxx;   assign  wn_im[62] = 16'hxxxx;   // 62  0.981  0.
 assign  wn_re[63] = 16'hxxxx;   assign  wn_im[63] = 16'hxxxx;   // 63  0.995  0.098
 
 endmodule
+`endif

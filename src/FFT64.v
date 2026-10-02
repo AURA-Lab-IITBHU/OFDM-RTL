@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef FFT64_V
+`define FFT64_V
+
 //----------------------------------------------------------------------
 //  FFT: 64-Point FFT Using Radix-2^2 Single-Path Delay Feedback
 //----------------------------------------------------------------------
@@ -60,3 +65,4 @@ SdfUnit #(.N(64),.M(4),.WIDTH(WIDTH)) SU3 (
 );
 
 endmodule
+`endif

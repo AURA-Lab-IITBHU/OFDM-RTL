@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef DELAYBUFFER_V
+`define DELAYBUFFER_V
+
 //----------------------------------------------------------------------
 //  DelayBuffer: Generate Constant Delay
 //----------------------------------------------------------------------
@@ -30,3 +35,4 @@ assign  do_re = buf_re[DEPTH-1];
 assign  do_im = buf_im[DEPTH-1];
 
 endmodule
+`endif

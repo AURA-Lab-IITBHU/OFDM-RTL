@@ -1,5 +1,8 @@
 `timescale 1ns / 1ps
 
+`ifndef PARALLEL_TO_SERIAL_V
+`define PARALLEL_TO_SERIAL_V
+
 // Parallel-to-serial: takes N complex samples in parallel, streams out one per cycle
 // Each complex sample is 32 bits: {re[15:0], im[15:0]}
 module parallel_to_serial #(
@@ -32,17 +35,17 @@ module parallel_to_serial #(
             frame_done <= 1'b0;
             if (start) begin
                 active <= 1'b1;
-                idx    <= 0;
+                idx    <= 1;
                 do_en  <= 1'b1;
+                do_re  <= parallel_data[16 +: 16];   // sample 0
+                do_im  <= parallel_data[0  +: 16];
             end else if (active) begin
-                // Each complex word is 32 bits: upper 16 = re, lower 16 = im
                 do_re <= parallel_data[(idx*32 + 16) +: 16];
                 do_im <= parallel_data[(idx*32) +: 16];
-                idx <= idx + 1;
+                idx   <= idx + 1;
                 if (idx == N-1) begin
                     active     <= 1'b0;
-                    do_en      <= 1'b0;
-                    frame_done <= 1'b1;
+                    frame_done <= 1'b1;   // do_en drops next cycle via the else branch
                 end
             end else begin
                 do_en <= 1'b0;
@@ -51,3 +54,4 @@ module parallel_to_serial #(
     end
 
 endmodule
+`endif

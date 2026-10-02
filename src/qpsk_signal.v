@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef QPSK_SIGNAL_V
+`define QPSK_SIGNAL_V
+
+
 // QPSK Mapper for 2 Bits 
 //   in   I    Q
 //   00  +A   +A
@@ -29,3 +33,4 @@ output reg signed [15:0] Q
             end 
 
 endmodule
+`endif
