@@ -44,8 +44,8 @@ a.out
 *.wdb
 *.dcp
 *.ltx
-# Precise, so it does not catch the vendored r22sdf-master/sim/**/vsim.log
-# files that are legitimately tracked.
+# Precise, so it does not catch unrelated *.log files that are legitimately
+# tracked.
 vivado*.log
 
 # Bitstreams and hardware platforms: build outputs, and large.

@@ -27,7 +27,6 @@ qpsk_signal_128 -> map_to_subcarriers -> parallel_to_serial
 | `src/` | all RTL, including the vendored r22sdf FFT core |
 | `testbenches/` | self-checking testbenches |
 | `fpga/` | AXI-Lite wrapper, Vitis bare-metal app, host checker |
-| `r22sdf-master/` | upstream FFT licence |
 
 Module names often do **not** match filenames — `src/zc_seq.v` defines
 `zc_sequence_generator`, `src/add_cp.v` defines `parameterized_add_cp`, and so
