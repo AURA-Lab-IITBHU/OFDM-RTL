@@ -13,12 +13,8 @@
 #   processing_system7_0/FCLK_CLK0 -> ofdm_axi_lite_0/s_axi_aclk
 #   proc_sys_reset (automation)    -> ofdm_axi_lite_0/s_axi_aresetn
 #
-# The AXI interface name is lowercase "s_axi", taken from the XIL_INTERFACENAME
-# attributes in fpga/ofdm_axi_lite.v (lines 35 and 54). Do not spell it "S_AXI".
-#
 # NOTE: fpga/ofdm_axi_lite.xdc is deliberately NOT added here: s_axi_aclk is
-# driven by FCLK_CLK0 inside the block design, so it is not a top-level port and
-# its create_clock would fail to match.
+# driven by FCLK_CLK0 inside the block design, so it is not a top-level port.
 # -----------------------------------------------------------------------------
 
 set script_dir [file dirname [file normalize [info script]]]
@@ -49,10 +45,7 @@ set_property default_lib xil_defaultlib [current_project]
 set_property source_mgmt_mode All [current_project]
 
 # If the ZedBoard board files are installed, use them so the PS7 gets the right
-# DDR3 and MIO configuration. This is what lets the FSBL boot and gives the
-# standalone app memory to run in. It is unrelated to the design's data path:
-# there is no PL-side DDR traffic, the frame lives in flip-flops and software
-# reads the 320 words back over AXI.
+# DDR/MIO configuration (needed for the FSBL to boot on real hardware).
 set use_preset 0
 set zb [get_board_parts -quiet *zedboard*]
 if {[llength $zb] > 0} {
@@ -65,11 +58,21 @@ if {[llength $zb] > 0} {
 
 # ---------------------------------------------------------------- sources ----
 # full.v is an `include aggregator for src/. Both the repo root and src/ are
-# include dirs so `include "src/..." and the bare `include "FFT64.v" inside
+# include dirs so `include "src/..." and the bare `include "./FFT64.v" inside
 # src/ifft_64.v both resolve.
 add_files -norecurse [file join $repo_root full.v]
 add_files -norecurse [file join $repo_root fpga ofdm_axi_lite.v]
 set_property include_dirs [list $repo_root [file join $repo_root src]] [get_filesets sources_1]
+
+# Every `include'd file must be in the project for module references to
+# resolve (filemgmt 56-591). Add them as Verilog Header so they are NOT
+# compiled standalone; they only get pulled in through full.v, which avoids
+# duplicate-module errors. uart_rx.v is included by full.v too.
+set src_files [glob -nocomplain [file join $repo_root src *.v]]
+add_files -norecurse -fileset sources_1 $src_files
+foreach f $src_files {
+  set_property file_type {Verilog Header} [get_files $f]
+}
 update_compile_order -fileset sources_1
 
 # ------------------------------------------------------------ block design ----
@@ -77,15 +80,9 @@ create_bd_design $bd_name
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0
 
-# Board preset (if available) plus external FIXED_IO only.
-#
-# DDR is deliberately NOT in the make_external list. On Zynq-7000 the PS DDR
-# pins are dedicated PS MIO and are configured by apply_board_preset; the
-# make_external DDR option is an HP-port concept from Zynq UltraScale+ and has
-# no meaning here. The PS keeps its own DDR3 controller, which is all the app
-# needs.
+# Board preset (if available) + external DDR / FIXED_IO ports.
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 \
-  -config [list make_external "FIXED_IO" apply_board_preset $use_preset \
+  -config [list make_external "FIXED_IO, DDR" apply_board_preset $use_preset \
                 Master "Disable" Slave "Disable"] \
   [get_bd_cells processing_system7_0]
 
@@ -101,15 +98,13 @@ set_property -dict [list \
   CONFIG.PCW_USE_S_AXI_GP1             {0} \
   ] [get_bd_cells processing_system7_0]
 
-# Wrap the hand-written AXI wrapper as a module reference. update_compile_order
-# first so the HDL is elaborated before the module is referenced by name.
+# Wrap the hand-written AXI wrapper as a module reference.
 update_compile_order -fileset sources_1
 create_bd_cell -type module -reference ofdm_axi_lite ofdm_axi_lite_0
 
+# Interface name is inferred from the s_axi_* port prefix: lowercase "s_axi".
 # Automation adds the interconnect and a proc_sys_reset, and wires clock and
-# reset itself -- s_axi_aresetn is a declared RST interface (ofdm_axi_lite.v:31,
-# plus ASSOCIATED_RESET on the clock at line 29), so a manual connect_bd_net
-# here would fail with "already connected".
+# reset (including s_axi_aresetn) itself, so no manual connect_bd_net here.
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
   -config {Master "/processing_system7_0/M_AXI_GP0" Slave "/ofdm_axi_lite_0/s_axi" Clk "Auto"} \
   [get_bd_intf_pins ofdm_axi_lite_0/s_axi]
@@ -137,7 +132,7 @@ if {[llength $seg] > 0} {
 } else {
   puts "WARNING: ofdm_axi_lite address segment not found; check Address Editor"
 }
-report_bd_address
+report_bd_address 
 
 validate_bd_design
 save_bd_design
