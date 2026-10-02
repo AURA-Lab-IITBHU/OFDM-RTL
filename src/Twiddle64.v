@@ -6,6 +6,12 @@
 //----------------------------------------------------------------------
 //  Twiddle: 64-Point Twiddle Table for Radix-2^2 Butterfly
 //----------------------------------------------------------------------
+//----------------------------------------------------------------
+// Vendored from r22sdf-master. Lint waiver below is the only local
+// edit: the module name predates this repo filename convention.
+// Re-vendoring replaces this file wholesale.
+//----------------------------------------------------------------
+/* verilator lint_off DECLFILENAME */
 module Twiddle #(
     parameter   TW_FF = 1   //  Use Output Register
 )(

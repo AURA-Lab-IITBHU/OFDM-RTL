@@ -44,6 +44,15 @@ module bit_reversal_buffer #(
     localparam LBK  = $clog2(BANKS);
     localparam LCNT = $clog2(BANKS + 1);
 
+    // Width-matched comparison constants. Comparing the narrow pointers against
+    // a 32-bit integer literal is functionally correct but zero-extends, which
+    // lint reports as WIDTHEXPAND. LAST_BNK is the load-bearing one: it keeps
+    // the bank wrap explicit rather than letting $clog2(BANKS) bits roll over to
+    // the next power of two, which would alias past the occupancy guard for a
+    // non-power-of-two BANKS.
+    localparam [LOGN-1:0] LAST_N   = N[LOGN-1:0]     - 1'b1;
+    localparam [LBK-1:0]  LAST_BNK = BANKS[LBK-1:0] - 1'b1;
+
     reg [WIDTH-1:0] buf_re [0:BANKS*N-1];
     reg [WIDTH-1:0] buf_im [0:BANKS*N-1];
     reg [LBK-1:0]  wr_bank;      // bank being written
@@ -53,12 +62,13 @@ module bit_reversal_buffer #(
     reg [LCNT-1:0] full;         // complete frames available to read
     reg             do_en_reg;
 
-    function integer bit_reverse(input integer val);
-        integer i, rev;
+    function [LOGN-1:0] bit_reverse(input [LOGN-1:0] val);
+        integer i;
+        reg [LOGN-1:0] rev;
         begin
             rev = 0;
             for (i = 0; i < LOGN; i = i + 1) begin
-                rev = (rev << 1) | (val & 1);
+                rev[LOGN-1-i] = val[0];
                 val = val >> 1;
             end
             bit_reverse = rev;
@@ -67,8 +77,8 @@ module bit_reversal_buffer #(
 
     // Frame boundary events, shared by the pointer and occupancy logic so they can
     // never disagree about whether a frame was accepted.
-    wire wr_complete = di_en     && (wr_idx == N-1);
-    wire rd_complete = do_en_reg && (rd_idx == N-1);
+    wire wr_complete = di_en     && (wr_idx == LAST_N);
+    wire rd_complete = do_en_reg && (rd_idx == LAST_N);
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -85,13 +95,13 @@ module bit_reversal_buffer #(
                 buf_re[wr_bank*N + bit_reverse(wr_idx)] <= di_re;
                 buf_im[wr_bank*N + bit_reverse(wr_idx)] <= di_im;
                 wr_idx <= wr_idx + 1;
-                if (wr_idx == N-1) begin
+                if (wr_idx == LAST_N) begin
                     wr_idx <= 0;
                     if (full == BANKS) begin
                         // No free bank. Drop the frame and flag it rather than
                         // silently overwriting a frame the reader still needs.
                         overflow <= 1'b1;
-                    end else if (wr_bank == BANKS-1) begin
+                    end else if (wr_bank == LAST_BNK) begin
                         wr_bank <= 0;
                     end else begin
                         wr_bank <= wr_bank + 1;
@@ -102,9 +112,9 @@ module bit_reversal_buffer #(
             // ---- read pointer: on burst end step to the next bank ----
             if (do_en_reg) begin
                 rd_idx <= rd_idx + 1;
-                if (rd_idx == N-1) begin
+                if (rd_idx == LAST_N) begin
                     rd_idx <= 0;
-                    if (rd_bank == BANKS-1) begin
+                    if (rd_bank == LAST_BNK) begin
                         rd_bank <= 0;
                     end else begin
                         rd_bank <= rd_bank + 1;

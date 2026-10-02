@@ -84,8 +84,12 @@ timing on that mux.
    `s_axi` AXI4-Lite interface — the `XIL_INTERFACENAME` attributes make this
    explicit rather than relying on Vivado's port-name inference.
 5. Connect `s_axi_aclk` ← `FCLK_CLK0`, `s_axi_aresetn` ← `FCLK_RESET0_N`
-   (inverted), and let Connection Automation wire the AXI-Lite port.
-6. Validate, then Generate Bitstream.
+   **directly** — `FCLK_RESET0_N` is already active-low, like
+   `s_axi_aresetn`, so no inverter is needed. Let Connection Automation wire
+   the AXI-Lite port.
+6. Add an XDC constraining `s_axi_aclk` to your `FCLK_CLK0` period (20 ns for
+   50 MHz), otherwise timing analysis reports the clock unconstrained.
+7. Validate, then Generate Bitstream.
 
 Set include directories to the repo root and `src/` if you ever add the RTL as
 design sources directly; `full.v` uses `src/`-prefixed paths.

@@ -12,12 +12,15 @@
 // LAST_GUARD_INDEX drives the pilot phase ((i - LAST_GUARD_INDEX) % 6) as well as
 // the upper guard boundary, so leaving one at its old value silently shifts every
 // pilot subcarrier.
+/* verilator lint_off DECLFILENAME */
+/* Module name intentionally differs from the filename: the filename is the
+   stage name used by the documented build commands, the module name is the
+   historical one. See AGENTS.md. */
 module parameterized_map_to_subcarriers #(
     parameter SUBCARRIER_COUNT = 64,
     parameter GUARD_COUNT      = 10,
     parameter DC               = 32,
-    parameter LAST_GUARD_INDEX = 9,
-    parameter DATA_WIDTH       = 16
+    parameter LAST_GUARD_INDEX = 9
 )(
     input  wire                              clk,
     input  wire                              rst,
