@@ -1,5 +1,9 @@
 `timescale 1ns / 1ps
 
+`ifndef QPSK_V
+`define QPSK_V
+
+
 module qpsk(
     input clk,
     input [127:0] d_in,
@@ -16,3 +20,4 @@ module qpsk(
    end
    end
 endmodule
+`endif

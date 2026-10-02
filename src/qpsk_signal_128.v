@@ -1,3 +1,8 @@
+`timescale 1ns / 1ps
+
+`ifndef QPSK_SIGNAL_128_V
+`define QPSK_SIGNAL_128_V
+
 
 `timescale 1ns / 1ps
 
@@ -27,3 +32,4 @@ output signed [1023:0] Q  // 64 x 16-bit signed samples
     endgenerate 
        
 endmodule
+`endif

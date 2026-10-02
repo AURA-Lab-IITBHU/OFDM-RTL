@@ -20,6 +20,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y iverilog
 
+      # The whole tree, testbenches and the AXI wrapper included, elaborates as
+      # plain Verilog-2001, so no -g2012 is needed. That matters for FPGA work:
+      # Vivado parses .v as Verilog-2001 by default. -I src is required so the
+      # bare `include "FFT64.v" &c. inside src/ifft_64.v resolve.
+      # full.v lives at the repo root, so it is listed explicitly; every RTL
+      # file is include-guarded, so listing src/*.v alongside it is safe.
       - name: Compile and Syntax Check All Modules Together
         run: |
-          iverilog -Wall -t null -y . *.v
+          iverilog -Wall -t null -I src full.v src/*.v fpga/*.v testbenches/*.v
+
+      # Timescale-inheritance warnings are expected and non-fatal: several RTL
+      # files predate this repo and carry no `timescale directive.
+      - name: Elaborate every testbench
+        run: |
+          set -e
+          iverilog -I src -o /tmp/t.vvp src/zc_seq.v            testbenches/tb_zc_seq.v       && vvp /tmp/t.vvp | grep -q "exited with  0 errors"
+          iverilog -I src -o /tmp/t.vvp src/qpsk.v              testbenches/tb_qpsk.v
+          iverilog -I src -o /tmp/t.vvp src/qpsk_signal.v src/qpsk_signal_128.v testbenches/tb_QPSK_signal.v
+          iverilog -I src -o /tmp/t.vvp src/map_to_subcarriers.v testbenches/tb_subcarrier.v   && vvp /tmp/t.vvp | grep -q "0 ERROR(S)"
+          iverilog -I src -o /tmp/t.vvp src/add_cp.v            testbenches/tb_add_cp.v      && vvp /tmp/t.vvp | grep -q "ALL TESTS PASSED"
+          iverilog -I src -o /tmp/t.vvp src/ifft_64.v           testbenches/tb_ifft_64.v     && vvp /tmp/t.vvp | grep -q "ALL IFFT TESTS PASSED"
+          iverilog -I src -o /tmp/t.vvp src/bit_reversal_buffer.v testbenches/tb_bit_reversal_buffer.v && vvp /tmp/t.vvp | grep -q "ALL BIT-REVERSAL BUFFER TESTS PASSED"
+          iverilog -I src -o /tmp/t.vvp full.v                  testbenches/tb_ofdm_frame.v  && vvp /tmp/t.vvp | grep -q "ALL OFDM FRAME TESTS PASSED"
+          iverilog -I src -o /tmp/t.vvp full.v                  testbenches/tb_full.v        && vvp /tmp/t.vvp | grep -q "ALL OFDM GENERATE_FRAME TESTS PASSED"
+          iverilog -I src -o /tmp/t.vvp full.v fpga/ofdm_axi_lite.v testbenches/tb_ofdm_axi_lite.v && vvp /tmp/t.vvp | grep -q "ALL OFDM AXI-LITE TESTS PASSED"

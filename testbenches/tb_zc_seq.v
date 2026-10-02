@@ -9,8 +9,10 @@ parameter DATA_WIDTH = 16;
 integer i;
 integer error = 0;
 
-wire [DATA_WIDTH-1:0]zc_re[0:SUB_COUNT-1];
-wire [DATA_WIDTH-1:0]zc_im[0:SUB_COUNT-1];
+// DUT outputs are packed: subcarrier i occupies [i*DATA_WIDTH +: DATA_WIDTH].
+// The private LUT below stays unpacked; it is TB-internal and never synthesized.
+wire [SUB_COUNT*DATA_WIDTH-1:0] zc_re;
+wire [SUB_COUNT*DATA_WIDTH-1:0] zc_im;
 
 //zc_seq_lut
 wire [DATA_WIDTH-1:0] zc_lut_re [0:(SUB_COUNT - (2*GUARD_COUNT) - 2)] ; // for real part
@@ -166,49 +168,49 @@ initial
             //Checking lower guard
             if(i < GUARD_COUNT)
             begin
-                if ((zc_re[i] != 16'h0000) || (zc_im[i] != 16'h0000) )
+                if ((zc_re[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) || (zc_im[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) )
                 begin
-                    $display("FAIL : Lower guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
+                    $display("FAIL : Lower guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
             end
 
             //Checking dc guard
             else if(i == DC_INDEX)
             begin
-                if ((zc_re[i] != 16'h0000) || (zc_im[i] != 16'h0000) )
+                if ((zc_re[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) || (zc_im[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) )
                 begin
-                    $display("FAIL : dc index at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
+                    $display("FAIL : dc index at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
             end
 
             //Checking upper Guard
              else if(i > SUB_COUNT - GUARD_COUNT - 1)
             begin
-                if ((zc_re[i] != 16'h0000) || (zc_im[i] != 16'h0000) )
+                if ((zc_re[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) || (zc_im[i*DATA_WIDTH +: DATA_WIDTH] != 16'h0000) )
                 begin
-                    $display("FAIL : Upper guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i], zc_im[i]);
+                    $display("FAIL : Upper guard band at index %0d is not zero! Re: %h, Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
                     error = error + 1;
                 end
-                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i], zc_im[i]);
+                else $display("PASS : Index : %2d , Re: %h , Im: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_im[i*DATA_WIDTH +: DATA_WIDTH]);
             end
 
             //Checking remaining bits
              else 
              begin
-                if ((zc_re[i] != zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]) || (zc_im[i] != zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]))
+                if ((zc_re[i*DATA_WIDTH +: DATA_WIDTH] != zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]) || (zc_im[i*DATA_WIDTH +: DATA_WIDTH] != zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]))
                 begin
-                    $display("FAIL : index : %2d , out re : %h , Expected re : %h",i,zc_re[i],zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
-                    $display("FAIL : index : %2d , out im : %h , Expected im : %h",i,zc_im[i],zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("FAIL : index : %2d , out re : %h , Expected re : %h",i,zc_re[i*DATA_WIDTH +: DATA_WIDTH],zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("FAIL : index : %2d , out im : %h , Expected im : %h",i,zc_im[i*DATA_WIDTH +: DATA_WIDTH],zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
                     error = error + 1;
                 end
                 else 
                 begin
-                    $display("PASS : Index : %2d , Out Re: %h , Expected Re: %h", i, zc_re[i], zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
-                    $display("PASS : Index : %2d , Out Im: %h , Expected Im: %h", i, zc_im[i], zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("PASS : Index : %2d , Out Re: %h , Expected Re: %h", i, zc_re[i*DATA_WIDTH +: DATA_WIDTH], zc_lut_re[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
+                    $display("PASS : Index : %2d , Out Im: %h , Expected Im: %h", i, zc_im[i*DATA_WIDTH +: DATA_WIDTH], zc_lut_im[i-GUARD_COUNT-((i>DC_INDEX)?1:0)]);
                 end
              end
         end
